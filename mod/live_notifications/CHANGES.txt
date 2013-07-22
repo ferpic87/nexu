@@ -1,0 +1,14 @@
+Version 1.8.0 (2013-01-28):
+
+Bugfixes:
+	Corrected bug when like the wire message
+	Corrected Bug in the login view not being logged
+
+Enhancements:
+	Added Notification for user at the answer to his wire message.
+	Added Notification for user at the answer to his discussion post in the group
+	Changed the data model, probably not old notifications appear
+	Delete icon notification
+	Delete All button
+	﻿Cron to delete old notifications, two weeks ago
+	  
