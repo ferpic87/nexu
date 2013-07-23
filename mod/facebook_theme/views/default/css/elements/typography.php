@@ -39,6 +39,9 @@ h1, h2, h3, h4, h5, h6 {
 	color: #333;
 }
 h1 { font-size: 1.8em; padding-bottom:5px; }
+.elgg-head > h1 {
+    line-height:1em;
+}
 h2 { font-size: 1.5em; line-height: 1.1em; padding-bottom:5px; }
 h3 { font-size: 1.2em; }
 h4 { font-size: 1.0em; }
