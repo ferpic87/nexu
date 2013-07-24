@@ -370,7 +370,6 @@ function thewire_latest_guid() {
  * @return ElggObject or null 
  */
 function thewire_get_parent($post_guid) {
-	error_log("ci entro:".$post_guid);
 	$parents = elgg_get_entities_from_relationship(array(
 		'relationship' => 'parent',
 		'relationship_guid' => $post_guid,
@@ -379,7 +378,6 @@ function thewire_get_parent($post_guid) {
 		error_log("parents:".var_export($parents,true));
 		return $parents[0];
 	}
-	error_log("fuori:".var_export($parents,true));
 	return null;
 }
 

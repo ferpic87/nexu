@@ -654,6 +654,7 @@ $(document).ready(function() {
 
 function checkAbstract(vuoto, troppo_lungo) {
 	var abstract = $('#blog_excerpt')[0].value;
+	checkLength($('#blog_excerpt')[0]);
 	if(abstract.length == 0) {
 	    alert(vuoto);
 	    return false;

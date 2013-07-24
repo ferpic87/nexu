@@ -522,31 +522,27 @@ function object_notifications($event, $object_type, $object) {
 								$type_key = "create:".get_subtype_from_id($object['subtype']);
 								$type_str = elgg_echo("live_notifications:".$type_key);
 
-								$owner = get_entity($object->container_guid);
+								$owner = get_entity($object->owner_guid);
 								$owner_link = elgg_view('output/url', array('href' => $owner->getURL(),'text'=> $owner->name));
 					
 								$object_link = elgg_view('output/url', array('href' => $link, 'text'=> strip_tags(substr($object['description'],0,100))));
 															
 								$body = elgg_echo($type_str, array($owner_link,$object_link));
 
-								$parent = NULL;
+								//$parent = NULL;
 								
 								$int_guid = (int) $object->guid;							
 
-								if(elgg_instanceof($object,'object','thewire')) { 
+								/*if(elgg_instanceof($object,'object','thewire')) { 
 									$parent = thewire_get_parent($int_guid);
-								}
-								//error_log("guid->".$int_guid."-parent:".var_export($parent,true)."-----------------------------------------------------".var_export($user->guid,true));
-								//error_log("guid_from_notifications->".$int_guid);
-								//error_log("response_from_notifications:".var_export($parent,true));
-
+								}*/
+								
 								// to "live" notify users of their favourite users' activities
+								if($object->owner_guid == $object->container_guid) { // if the content is not added within a group
+									if($user->owner_guid != $user->guid && $type_key != "create:messages") // to avoid two notifications when someone reply to the user wire post
+										add_new_notification($user->guid, $object->owner_guid, $type_str, $object->guid, $body);
+								}
 								
-								if(($parent == NULL || $parent->owner_guid != $user->guid) && $type_key != "create:messages") // to avoid two notifications when someone reply to the user wire post
-									add_new_notification($user->guid, $object->container_guid, $type_str, $object->guid, $body);
-
-								
-								//error_log("toid:".$user->guid.",fromid:".$object->container_guid.",action_type:".get_subtype_from_id($object['subtype']).",entityguid:".$object->guid.",descrizione:".$object['description']);								
 							}
 						}
 					}

@@ -51,6 +51,7 @@ if ($pagination && $count) {
 if (is_array($items) && count($items) > 0) {
 	$html .= "<ul class=\"$list_class\">";
 	foreach ($items as $item) {
+		error_log("item:".$item);
 		$li = elgg_view_list_item($item, $vars);
 		if ($li) {
 			if (elgg_instanceof($item)) {

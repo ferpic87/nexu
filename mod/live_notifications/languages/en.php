@@ -8,6 +8,7 @@ $english = array(
 	'live_notifications:create:bookmarks' => '%s create a new bookmark: %s',
 	'live_notifications:create:blog' => '%s posted a new blog post: %s',
 	'live_notifications:create:thewire' => '%s posted a new wire: %s',
+	'live_notifications:create:file' => '%s posted a new file: %s',
 	'live_notifications:group:create:page_top' => '%s create a new page in the %s group: ',	
 	'live_notifications:group:create:blog' => '%s posted a new blog post in the %s group: ',
 	'live_notifications:group:create:file' => '%s posted a new file in the %s group: ',
