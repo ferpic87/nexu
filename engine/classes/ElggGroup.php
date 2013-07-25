@@ -260,7 +260,7 @@ class ElggGroup extends ElggEntity
 	 *
 	 * @return mixed
 	 */
-	public function getMembers($limit = 10, $offset = 0, $count = false) {
+	public function getMembers($limit = 100, $offset = 0, $count = false) {
 		return get_group_members($this->getGUID(), $limit, $offset, 0, $count);
 	}
 

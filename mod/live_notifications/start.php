@@ -227,10 +227,8 @@ function create_message_for_entity($to_entity, $from_entity, $type, $action_type
 
 	$container = get_entity($entity->container_guid);
 
-	//error_log("sto in live");
 	
 	if(elgg_instanceof($container, 'group')){
-		//error_log("sto in gruppo");
 
 		if($action_type=='create'){
 			$url_user = elgg_view('output/url', array(
@@ -247,6 +245,7 @@ function create_message_for_entity($to_entity, $from_entity, $type, $action_type
 			$description .= '<a href="'.$entity->getUrl().'" title="">'.$entity->title.'</a>';
 
 			$members = $container->getMembers();
+			//error_log("members:".var_export(sizeof($members),true));
 			foreach ($members as $member) {
 				# Notify to all members
 				if($from_entity->guid!=$member->guid){
