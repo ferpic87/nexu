@@ -523,11 +523,7 @@ function object_notifications($event, $object_type, $object) {
 								$type_str = elgg_echo("live_notifications:".$type_key);
 
 								$owner = get_entity($object->owner_guid);
-								$owner_link = elgg_view('output/url', array('href' => $owner->getURL(),'text'=> $owner->name));
-					
-								$object_link = elgg_view('output/url', array('href' => $link, 'text'=> strip_tags(substr($object['description'],0,100))));
-															
-								$body = elgg_echo($type_str, array($owner_link,$object_link));
+								$owner_link = elgg_view('output/url', array('href' => $owner->getURL(),'text'=> $owner->name));					
 
 								//$parent = NULL;
 								
@@ -535,7 +531,16 @@ function object_notifications($event, $object_type, $object) {
 
 								/*if(elgg_instanceof($object,'object','thewire')) { 
 									$parent = thewire_get_parent($int_guid);
-								}*/
+								}*/								
+				
+								
+								if(elgg_instanceof($object,'object','thewire')) {
+									$object_link = elgg_view('output/url', array('href' => $link, 'text'=> substr($object->description,0,80)));
+								} else {
+									$object_link = elgg_view('output/url', array('href' => $link, 'text'=> strip_tags(substr($object['title'],0,60))));
+								}
+				
+								$body = elgg_echo($type_str, array($owner_link,$object_link));
 								
 								// to "live" notify users of their favourite users' activities
 								if($object->owner_guid == $object->container_guid) { // if the content is not added within a group

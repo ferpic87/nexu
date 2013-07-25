@@ -175,12 +175,9 @@ function likes_notification_action($hook, $entity_type, $returnvalue, $params){
 						'text' => $from_entity->name,
 						'class' => 'elgg-river-subject',
 					));		
-			if($entity->getSubtype()=='mood')
-				$description = elgg_echo('live_notifications:moodlike', array($url_user));
-			else
-				$description =  elgg_echo('live_notifications:like', array($url_user));	
+			$description =  elgg_echo('live_notifications:like', array($url_user));	
 
-			if($entity->getSubtype()=='thewire' || $entity->getSubtype()=='mood')
+			if($entity->getSubtype()=='thewire')
 				$description .= '<a href="'.$entity->getUrl().'" title="">'.elgg_get_excerpt($entity->description,60).'</a>';
 			else
 				$description .= '<a href="'.$entity->getUrl().'" title="">'.$entity->title.'</a>';
@@ -230,7 +227,10 @@ function create_message_for_entity($to_entity, $from_entity, $type, $action_type
 
 	$container = get_entity($entity->container_guid);
 
+	//error_log("sto in live");
+	
 	if(elgg_instanceof($container, 'group')){
+		//error_log("sto in gruppo");
 
 		if($action_type=='create'){
 			$url_user = elgg_view('output/url', array(
