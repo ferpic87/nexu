@@ -102,6 +102,11 @@
 	width: 181px;
 	min-height: 360px;
 }
+
+.clearfix {
+	margin-top:2px;
+}
+
 .elgg-sidebar-alt {
 	position: relative;
 	float: right;
