@@ -38,5 +38,5 @@ if (isset($vars['entity']) && elgg_instanceof($vars['entity'])) {
 
 	$help_text = elgg_echo('access:help');
 
-	echo "<span title=\"$help_text\" class=\"$access_class\">$access_id_string</span>";
+	echo "<span style=\"max-width:150px;max-height: 30px;text-overflow: ellipsis;overflow: hidden;\" title=\"$help_text\" class=\"$access_class\">$access_id_string</span>";
 }
