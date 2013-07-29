@@ -272,6 +272,7 @@
 	border: 1px solid #ccc;
 	padding: 3px;
 	background-color: white;
+	width:30px;
 }
 
 .elgg-comments {
