@@ -272,6 +272,9 @@
 	border: 1px solid #ccc;
 	padding: 3px;
 	background-color: white;
+}
+
+.elgg-image > a > img {
 	width:30px;
 }
 
