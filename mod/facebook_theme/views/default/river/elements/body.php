@@ -62,6 +62,18 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 		'text' => $container->name,
 	));
 	$group_string = elgg_echo('river:ingroup', array($group_link));
+} else if(elgg_instanceof($object,'object', 'thewire')) {
+	//$thread_id = $object->wire_thread;
+	//if (!$thread_id) 
+	//$group_string = var_export($object->guid." ".$object->wire_thread,true);
+	if($object->reply) {
+		$thread_link = elgg_view('output/url', array(
+			'href' => "thewire/thread/".$object->wire_thread,
+			'text' => "discussione",
+			'is_trusted' => true,
+		));
+		$group_string = "in risposta alla ".$thread_link;
+	}
 }
 
 echo <<<RIVER
