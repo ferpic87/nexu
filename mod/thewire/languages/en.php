@@ -21,6 +21,7 @@ $english = array(
 	'item:object:thewire' => "Wire posts",
 	'thewire:update' => 'Update',
 	'thewire:by' => 'Wire post by %s',
+	'thewire:response' => 'in response to %s',
 
 	'thewire:previous' => "Previous",
 	'thewire:hide' => "Hide",

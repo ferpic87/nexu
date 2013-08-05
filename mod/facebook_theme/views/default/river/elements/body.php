@@ -69,10 +69,11 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 	if($object->wire_thread != $object->guid) {
 		$thread_link = elgg_view('output/url', array(
 			'href' => "thewire/thread/".$object->wire_thread,
-			'text' => "discussione",
+			'text' => elgg_echo('thewire:thread'),
 			'is_trusted' => true,
+			'style' => 'text-transform:lowercase',
 		));
-		$group_string = "in risposta alla ".$thread_link;
+		$group_string = elgg_echo('thewire:response', array($thread_link));
 	}
 }
 
