@@ -66,7 +66,7 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 	//$thread_id = $object->wire_thread;
 	//if (!$thread_id) 
 	//$group_string = var_export($object->guid." ".$object->wire_thread,true);
-	if($object->reply) {
+	if($object->wire_thread != $object->guid) {
 		$thread_link = elgg_view('output/url', array(
 			'href' => "thewire/thread/".$object->wire_thread,
 			'text' => "discussione",
