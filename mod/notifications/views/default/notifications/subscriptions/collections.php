@@ -52,6 +52,8 @@ $user = $vars['user'];
 	$members = array();
 	if ($friends = get_user_friends($user->guid, '', 9999, 0)) {
 		foreach($friends as $friend) {
+			if($friend->username=="admin")
+				continue;
 			$members[] = $friend->guid;
 		}
 	}

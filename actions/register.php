@@ -59,10 +59,12 @@ if (elgg_get_config('allow_registration')) {
 			// plugin that has disabled the user
 			try {
 				login($new_user);
+				// default: to get notified by admin (broadcast message)
+				add_entity_relationship($new_user->guid, 'notifyemail', "4455");
 			} catch (LoginException $e) {
 				// do nothing
 			}
-
+			
 			// Forward on success, assume everything else is an error...
 			forward();
 		} else {

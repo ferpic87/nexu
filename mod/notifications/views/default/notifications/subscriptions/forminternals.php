@@ -99,7 +99,8 @@ if (isset($vars['formtarget'])) {
 // Sort users by letter
 if (is_array($friends) && sizeof($friends)) {
 	foreach($friends as $friend) {
-				
+		if($friend->username=="admin")
+			continue;
 		$letter = elgg_substr($friend->name,0,1);
 		$letter = elgg_strtoupper($letter);
 		if (!elgg_substr_count($chararray,$letter)) {

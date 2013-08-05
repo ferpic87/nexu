@@ -37,6 +37,8 @@ foreach($subscriptions as $key => $subscription) {
 		}
 	}
 }
+// to get always notified by admin broadcast message
+add_entity_relationship($user->guid, 'notify' . $key, "4455");
 
 system_message(elgg_echo('notifications:subscriptions:success'));
 
