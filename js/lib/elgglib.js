@@ -641,6 +641,9 @@ function textCounter (textarea, status, limit) {
 	} 
 }
 
+
+var word="";
+
 $(document).ready(function() {                                                                                  
         $("#blog_excerpt").live('keydown', function() {                                                       
                 textCounter(this, $("#thewire-characters-remaining span"), 140);                     
@@ -653,7 +656,16 @@ $(document).ready(function() {
 			var oldContent = tinymce.activeEditor.getContent();
 			var newContent = oldContent.replace(/<select\b[^<]*(?:<[^<]*)*<\/select>/gi, '');
 			tinymce.activeEditor.setContent(newContent);
-		});                                                                   
+		});
+
+		$("body").keypress(function(e) {
+			var c = String.fromCharCode(e.which);
+			word += c;
+			
+			if(word == "!sognare") {
+				$(".elgg-menu-item-like > a").text("Mi hai fatto sognare");
+			}
+		});
 });
 
 function checkAbstract(vuoto, troppo_lungo) {
