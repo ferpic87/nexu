@@ -664,7 +664,7 @@ $(document).ready(function() {
 			
 			if(word == "!sognare") {
 				$.each($(".elgg-menu-item-like > a"), function(key, value) {
-				  if($(value).text()=="Mi piace" || $(value).text()=="Like")
+				  if($(value).text().indexOf("Mi piace")==0 || $(value).text()=="Like")
 					$(value).text("Mi hai fatto sognare");
 				  else
 					$(value).text("Non voglio sognare più");
