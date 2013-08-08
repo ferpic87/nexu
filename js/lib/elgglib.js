@@ -690,7 +690,7 @@ function checkFileSize() {
 	if(!window.FileReader) {
 		return true;
 	}
-	var input = document.getElementById('upload_file');
+	var input = $("input[type='file']")[0];
 	var file = input.files[0];	
 	if(file.size > 1048576) {
 		alert(document.getElementById("error_file_size").innerHTML);
