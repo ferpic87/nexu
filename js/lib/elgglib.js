@@ -663,7 +663,12 @@ $(document).ready(function() {
 			word += c;
 			
 			if(word == "!sognare") {
-				$(".elgg-menu-item-like > a").text("Mi hai fatto sognare");
+				$.each($(".elgg-menu-item-like > a"), function(key, value) {
+				  if($(value).text()=="Mi piace" || $(value).text()=="Like")
+					$(value).text("Mi hai fatto sognare");
+				  else
+					$(value).text("Non voglio sognare più");
+				});
 			}
 		});
 });
