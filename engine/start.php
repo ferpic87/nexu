@@ -98,6 +98,9 @@ foreach ($lib_files as $file) {
 // Load the members function                                                                     
 include_once($lib_dir."members.php");
 
+// Load the get_interests/skills function                                                                     
+include_once($lib_dir."data_expose.php");
+
 // Connect to database, load language files, load configuration, init session
 // Plugins can't use this event because they haven't been loaded yet.
 elgg_trigger_event('boot', 'system');
@@ -125,3 +128,7 @@ $CONFIG->boot_complete = true;
 elgg_trigger_event('ready', 'system');
 
 expose_function("members", "get_members", array(), 'A method that returns all the info about the members', 'GET', false, false);
+
+expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type' => 'string'),
+                       'what_to_retrieve' => array ('type' => 'string'),
+                     ), 'A method that returns the data of interest for the user guid', 'GET', false, false);

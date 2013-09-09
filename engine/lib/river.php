@@ -25,6 +25,7 @@ $posted = 0, $annotation_id = 0) {
 
 	global $CONFIG;
 
+	
 	// use default viewtype for when called from web services api
 	if (!elgg_view_exists($view, 'default')) {
 		return false;
@@ -55,6 +56,23 @@ $posted = 0, $annotation_id = 0) {
 	$posted = sanitise_int($posted);
 	$annotation_id = sanitise_int($annotation_id);
 
+	//error_log("ho scritto un ".$subtype." ".$action_type);
+
+	$friendsList = $subject->getFriendsOf(100);
+	
+	error_log("lista amici:".var_export($friendsList,true));
+	
+	///// CALL TO RANK UPDATE FOR ALL THE USERS THAT FOLLOW THE ITEM //// 
+	/*
+	
+		Per ogni utente con guid appartenente all'insieme persone che seguono "subject_guid"
+			Cancellare quelli che non fanno più parte della finestra  
+			Inseriamo l'item nella tabella Ranking che ha come campo viewer  (calcolandone il ranking)
+			Aggiornare il rank degli altri elementi [da valutare se farlo qui]
+	
+	
+	////////////////////////////////////////////////////////////////////*/
+	
 	$values = array(
 		'type' => $type,
 		'subtype' => $subtype,
@@ -273,6 +291,7 @@ function elgg_get_river(array $options = array()) {
 
 		'wheres'               => array(),
 		'joins'                => array(),
+		'select_rank' 		   => FALSE,
 	);
 
 	$options = array_merge($defaults, $options);
@@ -300,6 +319,16 @@ function elgg_get_river(array $options = array()) {
 
 	$joins = $options['joins'];
 
+	//----- change the query for apply the ranking -----
+	$rank = "";
+	if($options['select_rank']) {
+		$options['order_by'] = "elem.rank desc,".$options['order_by'];
+		$rank = ', elem.rank';
+		$joins[] = "LEFT JOIN nexu_ranking elem ON elem.guid = rv.id";
+	}
+	//----- otherwise it will return the items in reverse chronological order -----
+	
+	
 	if ($options['relationship_guid']) {
 		$clauses = elgg_get_entity_relationship_where_sql(
 				'rv.subject_guid',
@@ -324,9 +353,11 @@ function elgg_get_river(array $options = array()) {
 
 	// remove identical where clauses
 	$wheres = array_unique($wheres);
-
+	
+	
+	
 	if (!$options['count']) {
-		$query = "SELECT DISTINCT rv.* FROM {$CONFIG->dbprefix}river rv ";
+		$query = "SELECT DISTINCT rv.*{$rank} FROM {$CONFIG->dbprefix}river rv ";
 	} else {
 		$query = "SELECT count(DISTINCT rv.id) as total FROM {$CONFIG->dbprefix}river rv ";
 	}
@@ -360,6 +391,8 @@ function elgg_get_river(array $options = array()) {
 			$query .= " LIMIT $offset, $limit";
 		}
 
+//		error_log($query);
+		
 		$river_items = get_data($query, 'elgg_row_to_elgg_river_item');
 		_elgg_prefetch_river_entities($river_items);
 

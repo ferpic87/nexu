@@ -76,12 +76,13 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 		$group_string = elgg_echo('thewire:response', array($thread_link));
 	}
 }
+$rank = $item->rank;
 
 echo <<<RIVER
 <div class="elgg-river-summary">$summary $group_string</div>
 $message
 $attachments
-<span class="elgg-river-timestamp">$timestamp</span>
+<span class="elgg-river-timestamp">[rank=$rank]$timestamp</span>
 $menu
 $responses
 RIVER;
