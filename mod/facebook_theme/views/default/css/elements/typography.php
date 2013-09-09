@@ -51,7 +51,9 @@ h6 { font-size: 0.8em; }
 a {
 	color: #3B5998;
 	cursor:pointer;
+	text-decoration: underline;
 }
+
 a:hover {
 	text-decoration: underline;
 }
