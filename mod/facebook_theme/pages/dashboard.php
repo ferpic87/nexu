@@ -35,7 +35,7 @@ $activity = elgg_list_river(array(
 		AND rv.action_type <> 'friend'
 
 	"),
-	'select_rank' => TRUE,
+	'select_rank' => FALSE,
 ));
 
 //		AND rv.posted < ".$time_ago."
