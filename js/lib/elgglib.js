@@ -601,7 +601,7 @@ var selectElem;
 		
 
 $(document).ready(function() {
-
+	
 	$.get('<?php echo $CONFIG->url;?>services/api/rest/json/?method=members', function(response) {
 		var toAppend = "";
 		toAppend += '<select id="sel" style="display:none;position: absolute; background-color: white; z-index:  200; font-size:small; " onChange="parent.aggiungi(this);"><option value="">Seleziona persona da menzionare</option>';
@@ -621,8 +621,12 @@ $(document).ready(function() {
     
 	});
 	
-	
+	checkAllLinks();
 });
+
+function checkAllLinks() {
+	 $('a:not([href*="nexu"])').attr("target","_blank");
+}
 
 function checkLength(obj) {
 	if(obj.value.length==0 || obj.value.length>140) 
