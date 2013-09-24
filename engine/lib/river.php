@@ -94,7 +94,6 @@ $posted = 0, $annotation_id = 0) {
 		
 	// update the entities which had the action carried out on it
 	// @todo shouldn't this be down elsewhere? Like when an annotation is saved?
-	error_log("prima di scrivere");
 		
 	if ($id) {
 		///// ADDING THE ITEM IN THE ACTIVITY WINDOW, FOR EACH USER THAT FOLLOW THE USER WITH SUBJECT'S GUID //// 
@@ -122,11 +121,8 @@ $posted = 0, $annotation_id = 0) {
 				$content_type = "other";
 		
 		
-		error_log("content:".$content_type);
-		
 		$updateNEXUrankingNeeded = false;
 		$friendsList = $subject->getFriends("",100);
-		error_log("amici:".var_export($friendList,true));
 		
 		foreach($friendsList as $friend) {
 			$updateNEXUrankingNeeded = true;
