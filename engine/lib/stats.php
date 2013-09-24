@@ -49,8 +49,8 @@ function doQuery($toGet, $type, $month, $interactionType, $subtypes, $alias) {
 		$monthClause = "month(from_unixtime(log.time_created)) = '".$month."'"; 
 	}
 	
-	$query = "select $toGet,count(*) as $alias from (elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid)) where log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and ($eventTypeClause) group by name order by $alias desc";
-	
+	$query = "select $toGet,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and ($eventTypeClause) group by name order by $alias desc";
+	error_log("query:".$query);
 	$response = get_data($query);
 	return $response;
 }
