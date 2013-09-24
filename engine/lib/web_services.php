@@ -553,6 +553,8 @@ function get_and_validate_api_headers() {
 		throw new APIException(elgg_echo('APIException:NotGetOrPost'));
 	}
 
+	error_log(var_export($_SERVER,true));
+	
 	$result->api_key = $_SERVER['HTTP_X_ELGG_APIKEY'];
 	if ($result->api_key == "") {
 		throw new APIException(elgg_echo('APIException:MissingAPIKey'));

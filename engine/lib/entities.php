@@ -1320,11 +1320,11 @@ function elgg_get_entity_type_subtype_where_sql($table, $types, $subtypes, $pair
  */
 function elgg_get_guid_based_where_sql($column, $guids) {
 	// short circuit if nothing requested
-	// 0 is a valid guid
+	
 	if (!$guids && $guids !== 0) {
 		return '';
 	}
-
+	
 	// normalize and sanitise owners
 	if (!is_array($guids)) {
 		$guids = array($guids);
