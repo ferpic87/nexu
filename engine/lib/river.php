@@ -56,22 +56,6 @@ $posted = 0, $annotation_id = 0) {
 	$posted = sanitise_int($posted);
 	$annotation_id = sanitise_int($annotation_id);
 
-	//error_log("ho scritto un ".$subtype." ".$action_type);
-
-	$friendsList = $subject->getFriendsOf(100);
-	
-	error_log("lista amici:".var_export($friendsList,true));
-	
-	///// CALL TO RANK UPDATE FOR ALL THE USERS THAT FOLLOW THE ITEM //// 
-	/*
-	
-		Per ogni utente con guid appartenente all'insieme persone che seguono "subject_guid"
-			Cancellare quelli che non fanno più parte della finestra  
-			Inseriamo l'item nella tabella Ranking che ha come campo viewer  (calcolandone il ranking)
-			Aggiornare il rank degli altri elementi [da valutare se farlo qui]
-	
-	
-	////////////////////////////////////////////////////////////////////*/
 	
 	$values = array(
 		'type' => $type,
@@ -106,9 +90,55 @@ $posted = 0, $annotation_id = 0) {
 		" annotation_id = $annotation_id, " .
 		" posted = $posted");
 
+		
+		
 	// update the entities which had the action carried out on it
 	// @todo shouldn't this be down elsewhere? Like when an annotation is saved?
+	error_log("prima di scrivere");
+		
 	if ($id) {
+		///// ADDING THE ITEM IN THE ACTIVITY WINDOW, FOR EACH USER THAT FOLLOW THE USER WITH SUBJECT'S GUID //// 
+	
+		$insertQuery = "INSERT INTO nexu_ranking (guid,viewer,author,content_type,timestamp) VALUES ";
+
+		if($type == "group" && $action_type == "join")
+			$content_type = "group";
+		else if($action_type == "comment" || $action_type == "reply")
+			$content_type = "comment";
+		else if($action_type == "friend")
+			$content_type = "new_friend";
+		else if($action_type == "create") {
+			if($subtype == "bookmarks")
+				$content_type = "bookmark";
+			else if($subtype == "thewire")
+				$content_type = "status";
+			else if($subtype == "groupforumtopic")
+				$content_type = "discussion";
+			else if($subtype == "file" || $subtype == "blog")
+				$content_type = $subtype;
+			else 
+				$content_type = "other";
+		} else 
+				$content_type = "other";
+		
+		
+		error_log("content:".$content_type);
+		
+		$updateNEXUrankingNeeded = false;
+		$friendsList = $subject->getFriends("",100);
+		error_log("amici:".var_export($friendList,true));
+		
+		foreach($friendsList as $friend) {
+			$updateNEXUrankingNeeded = true;
+			$insertQuery .= "(".$id.",".$friend->guid.",".$subject_guid.",'".$content_type."',".$posted."),";
+		}
+		
+		$insertQuery = substr_replace($insertQuery ,"",-1);
+		if($updateNEXUrankingNeeded)
+			get_data($insertQuery);
+	
+	/////////////////////////////////////////////////////////////////////
+		
 		update_entity_last_action($object_guid, $posted);
 		
 		$river_items = elgg_get_river(array('id' => $id));
@@ -319,12 +349,15 @@ function elgg_get_river(array $options = array()) {
 
 	$joins = $options['joins'];
 
+	$loggedInGuid = get_loggedin_user()->guid;
 	//----- change the query for apply the ranking -----
 	$rank = "";
 	if($options['select_rank']) {
 		$options['order_by'] = "elem.rank desc,".$options['order_by'];
 		$rank = ', elem.rank';
-		$joins[] = "LEFT JOIN nexu_ranking elem ON elem.guid = rv.id";
+		//$joins[] = "LEFT JOIN nexu_ranking elem ON elem.guid = rv.id";
+		$joins[] = "LEFT JOIN (SELECT * FROM nexu_ranking WHERE viewer = $loggedInGuid ) elem ON elem.guid = rv.id";
+		//$wheres[] = "elem.viewer = $loggedInGuid";
 	}
 	//----- otherwise it will return the items in reverse chronological order -----
 	

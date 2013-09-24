@@ -95,11 +95,17 @@ foreach ($lib_files as $file) {
 	}
 }
 
-// Load the members function                                                                     
+// Load the get_members function                                                                     
 include_once($lib_dir."members.php");
 
-// Load the get_interests/skills function                                                                     
+// Load the retrieve_data function                                                                     
 include_once($lib_dir."data_expose.php");
+
+// Load the get_window function                                                                     
+include_once($lib_dir."activities_window.php");
+
+// Load the get_stats function                                                                     
+include_once($lib_dir."stats.php");
 
 // Connect to database, load language files, load configuration, init session
 // Plugins can't use this event because they haven't been loaded yet.
@@ -132,3 +138,12 @@ expose_function("members", "get_members", array(), 'A method that returns all th
 expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type' => 'string'),
                        'what_to_retrieve' => array ('type' => 'string'),
                      ), 'A method that returns the data of interest for the user guid', 'GET', false, false);
+
+expose_function("get_window", "get_window", array( 'guid' => array ('type' => 'string')), 
+						'A method that returns the activities window of the user', 'GET', false, false);
+
+expose_function("stats", "get_stats", array( 'type' => array ('type' => 'string'),
+											 'month' => array ('type' => 'string','required' => false, 'default'=> 0),
+											 'perTool' => array ('type' => 'string','required' => false, 'default'=> 0),
+											 'interactionType' => array ('type' => 'string','required' => false, 'default'=> 0)), 
+						'A method that the stats of the community', 'GET', false, false);

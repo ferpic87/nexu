@@ -40,9 +40,7 @@ if (empty($username) || empty($password)) {
 			$message = $result;
 			system_message($message);
 			//forward(REFERER);
-			error_log("non riesco");
 		} else {
-			error_log("loggato");
 			$user = get_user_by_username($username);
 			if (!$user) {
 				//register_error(elgg_echo('login:baduser'));
@@ -68,6 +66,3 @@ if (empty($username) || empty($password)) {
 			}
 		}
 }
-//error_log($message);
-//system_message($message);
-//forward($forward_url);

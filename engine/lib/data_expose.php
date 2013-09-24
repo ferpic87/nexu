@@ -25,20 +25,18 @@ function retrieve_data($id,$what)  {
 
 function extractMetadata($id, $what) {
 	$toReturn = array();
-	
-	$list = elgg_get_metadata(array(
+	$options = array(
 		'guid' => $id,
 		'limit' => 0,
 		'metadata_names' => array($what),
-	));
+	);
+	
+	$list = elgg_get_metadata($options);
 		
 	if(count($list)>0) {
-		if(count($list) != 1) {
-			foreach ($list as $field) {
-				array_push($toReturn, $field['value']);
-			}
-		} else
-			array_push($toReturn, $list['value']);
+		foreach ($list as $field) {
+			array_push($toReturn, $field['value']);
+		}
 	}
 	return $toReturn;
 }

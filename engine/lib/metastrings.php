@@ -319,6 +319,7 @@ function elgg_get_metastring_based_objects($options) {
 		}
 	}
 
+	
 	$singulars = array(
 		'type', 'subtype', 'type_subtype_pair',
 		'guid', 'owner_guid', 'container_guid', 'site_guid',
@@ -347,10 +348,12 @@ function elgg_get_metastring_based_objects($options) {
 		$options['subtypes'], $options['type_subtype_pairs']);
 
 	$wheres[] = elgg_get_guid_based_where_sql('e.guid', $options['guids']);
+	
 	$wheres[] = elgg_get_guid_based_where_sql('e.owner_guid', $options['owner_guids']);
 	$wheres[] = elgg_get_guid_based_where_sql('e.container_guid', $options['container_guids']);
 	$wheres[] = elgg_get_guid_based_where_sql('e.site_guid', $options['site_guids']);
 
+	
 	$wheres[] = elgg_get_entity_time_where_sql('e', $options['created_time_upper'],
 		$options['created_time_lower'], $options['modified_time_upper'], $options['modified_time_lower']);
 
