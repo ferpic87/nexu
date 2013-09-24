@@ -77,12 +77,16 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 	}
 }
 $rank = $item->rank;
+$debug = false;
+if($debug) {
+	$stampaRank = "[rank=".$rank."]";
+}
 
 echo <<<RIVER
 <div class="elgg-river-summary">$summary $group_string</div>
 $message
 $attachments
-<span class="elgg-river-timestamp">$timestamp</span>
+<span class="elgg-river-timestamp">$stampaRank$timestamp</span>
 $menu
 $responses
 RIVER;
