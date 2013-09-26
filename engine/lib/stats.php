@@ -2,7 +2,7 @@
 
 include_once("entities.php");
 
-function get_stats($type, $month = 0, $perTool = 0, $interactionType = 0)  {
+function get_stats($type, $month = 0, $perTool = 0, $interactionType)  {
 	$response = array();
 	if($type == "usage_frequency") {
 		$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
