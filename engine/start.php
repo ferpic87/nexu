@@ -146,5 +146,6 @@ expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type'
 expose_function("stats", "get_stats", array( 'type' => array ('type' => 'string'),
 											 'month' => array ('type' => 'string','required' => false, 'default'=> 0),
 											 'perTool' => array ('type' => 'string','required' => false, 'default'=> 0),
-											 'interactionType' => array ('type' => 'string','required' => true)), 
+											 'interactionType' => array ('type' => 'string','required' => true),
+											 'tool' => array ('type' => 'string','required' => false, 'default'=> "")), 
 						'A method that the stats of the community', 'GET', false, false);
