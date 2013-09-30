@@ -2,10 +2,14 @@
 
 include_once("entities.php");
 
-function get_stats($type, $month = 0, $perTool = 0, $interactionType)  {
+function get_stats($type, $month = 0, $perTool = 0, $interactionType, $tool = 0)  {
 	$response = array();
 	if($type == "usage_frequency") {
-		$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
+		if($tool == "") {
+			$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
+		} else {
+			$subtypes = array($tool);
+		}
 		
 		if($perTool == true) {
 			$aliases = array('blog','status_update','bookmark','file','discussion');
