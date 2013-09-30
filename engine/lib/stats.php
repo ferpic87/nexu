@@ -4,51 +4,64 @@ include_once("entities.php");
 
 function get_stats($type, $month = 0, $perTool = 0, $interactionType, $tool = 0)  {
 	$response = array();
-	if($type == "usage_frequency") {
-		if($tool == "") {
-			$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
-		} else {
-			$subtypes = array($tool);
-		}
-		
-		if($perTool == true) {
-			$aliases = array('blog','status_update','bookmark','file','discussion');
-		
-			$count = count($subtypes);	
-			for($i=0; $i<$count; $i++) {
-				$arrResponse = doQuery($type, $month, $interactionType, array($subtypes[$i]), $aliases[$i]);
-				$temp = array("blog" => 0, "status_update" => 0, "bookmark" => 0, "file" => 0, "discussion" => 0);
-				foreach($arrResponse as $value) {
-					if(!isset($response[$value->guid])) {
-						$response[$value->guid] = $temp;
-						$response[$value->guid]["name"] = $value->name;
-					}
-					$response[$value->guid][$aliases[$i]] = $value->$aliases[$i];	
+	if($tool == "") {
+		$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
+	} else {
+		$subtypes = array($tool);
+	}
+	
+	if($perTool == true) {
+		$aliases = array('blog','status_update','bookmark','file','discussion');
+	
+		$count = count($subtypes);	
+		for($i=0; $i<$count; $i++) {
+			$arrResponse = doQuery($type, $month, $interactionType, array($subtypes[$i]), $aliases[$i]);
+			$temp = array("blog" => 0, "status_update" => 0, "bookmark" => 0, "file" => 0, "discussion" => 0);
+			foreach($arrResponse as $value) {
+				if(!isset($response[$value->guid])) {
+					$response[$value->guid] = $temp;
+					$response[$value->guid]["name"] = $value->name;
 				}
+				$response[$value->guid][$aliases[$i]] = $value->$aliases[$i];	
 			}
-		} else {
-			$respQuery = doQuery($type, $month, $interactionType, $subtypes, "value");
-			$temp = array("name" => 0, "value" => 0);
-			foreach($respQuery as $item) {
-				$response[$item->guid] = $temp;
-				$response[$item->guid]["name"] = $item->name;
-				$response[$item->guid]["value"] = $item->value;
-			}
+		}
+	} else {
+		$respQuery = doQuery($type, $month, $interactionType, $subtypes, "value");
+		$temp = array("name" => 0, "value" => 0);
+		foreach($respQuery as $item) {
+			$response[$item->guid] = $temp;
+			$response[$item->guid]["name"] = $item->name;
+			$response[$item->guid]["value"] = $item->value;
 		}
 	}
 	return $response;
 }
 
-function doQuery($type, $month, $interactionType, $subtypes, $alias) {
-	if($interactionType == "creator")
-		return getContentCreated($type, $month, $interactionType, $subtypes, $alias);
-	else if($interactionType == "engaged")
-		return getNumberOfInteractions($type, $month, $subtypes, $alias, "all");
-	
+function doQuery($type, $month, $interactionType, $subtypes, $alias) {	
+	if($interactionType == "creator") {
+		if($type == "usage_frequency") {
+			$toSelect = "user.guid as guid, user.name as name";
+			$groupby = "name";
+		} else if($type == "usage_frequency_app") {
+			$toSelect = "log.id as guid, object_subtype as name";
+			$groupby = "object_subtype";	
+		}
+		return getContentCreated($toSelect, $groupby, $type, $month, $interactionType, $subtypes, $alias);
+	} else if($interactionType == "engaged") {
+		
+		if($type == "usage_frequency") {
+			$toSelect = "user.guid as guid, user.name as name";
+			$groupby = "name";
+		} else if($type == "usage_frequency_app") {
+			$toSelect = "sub.id as guid, sub.subtype as name";
+			$groupby = "sub.subtype";	
+		}
+		return getNumberOfInteractions($toSelect, $groupby, $type, $month, $subtypes, $alias, "all");
+	}
 }
 
 
-function getContentCreated($type, $month, $interactionType, $subtypes, $alias) {
+function getContentCreated($fieldToSelect, $groupby, $type, $month, $interactionType, $subtypes, $alias) {
 	$monthClause = "true";
 
 	$subtypeClause = "(log.object_subtype = '".$subtypes[0]."')";
@@ -65,14 +78,14 @@ function getContentCreated($type, $month, $interactionType, $subtypes, $alias) {
 		$monthClause = "month(from_unixtime(log.time_created)) = '".$month."'"; 
 	}
 	
-	$query = "select user.guid as guid, user.name as name,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and log.event = 'create' group by name order by $alias desc";
+	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and log.event = 'create' group by $groupby order by $alias desc";
 	
 	$response = get_data($query);
-	error_log("q=".$query);
+	//error_log("q=".$query);
 	return $response;
 }
 
-function getNumberOfInteractions($type, $month, $subtypes, $alias, $what) {
+function getNumberOfInteractions($fieldToSelect, $groupby, $type, $month, $subtypes, $alias, $what) {
 	$monthClause = "true";
 	
 	$subtypeClause = "(sub.subtype = '".$subtypes[0]."')";
@@ -91,8 +104,8 @@ function getNumberOfInteractions($type, $month, $subtypes, $alias, $what) {
 		$monthClause = "month(from_unixtime(ann.time_created)) = '".$month."'"; 
 	}
 	
-	$query = "SELECT user.guid as guid, user.name, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE ($interactionClause) and ($subtypeClause) and $monthClause group by name order by $alias desc";
+	$query = "SELECT $fieldToSelect, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE ($interactionClause) and ($subtypeClause) and $monthClause group by $groupby order by $alias desc";
 	$response = get_data($query);
-	error_log("q=".$query);
+	//error_log("q=".$query);
 	return $response;
 }
