@@ -78,10 +78,10 @@ function getContentCreated($fieldToSelect, $groupby, $type, $month, $interaction
 		$monthClause = "month(from_unixtime(log.time_created)) = '".$month."'"; 
 	}
 	
-	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and log.event = 'create' group by $groupby order by $alias desc";
+	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.time_created >= 1372636800 and log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($monthClause) and log.event = 'create' group by $groupby order by $alias desc";
 	
 	$response = get_data($query);
-	//error_log("q=".$query);
+	error_log("q=".$query);
 	return $response;
 }
 
@@ -104,7 +104,7 @@ function getNumberOfInteractions($fieldToSelect, $groupby, $type, $month, $subty
 		$monthClause = "month(from_unixtime(ann.time_created)) = '".$month."'"; 
 	}
 	
-	$query = "SELECT $fieldToSelect, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE ($interactionClause) and ($subtypeClause) and $monthClause group by $groupby order by $alias desc";
+	$query = "SELECT $fieldToSelect, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE  ann.time_created >= 1372636800 and ($interactionClause) and ($subtypeClause) and $monthClause group by $groupby order by $alias desc";
 	$response = get_data($query);
 	//error_log("q=".$query);
 	return $response;
