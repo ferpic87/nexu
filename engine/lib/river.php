@@ -100,26 +100,7 @@ $posted = 0, $annotation_id = 0) {
 	
 		$insertQuery = "INSERT INTO nexu_ranking (guid,viewer,author,content_type,timestamp) VALUES ";
 
-		if($type == "group" && $action_type == "join")
-			$content_type = "group";
-		else if($action_type == "comment" || $action_type == "reply")
-			$content_type = "comment";
-		else if($action_type == "friend")
-			$content_type = "new_friend";
-		else if($action_type == "create") {
-			if($subtype == "bookmarks")
-				$content_type = "bookmark";
-			else if($subtype == "thewire")
-				$content_type = "status";
-			else if($subtype == "groupforumtopic")
-				$content_type = "discussion";
-			else if($subtype == "file" || $subtype == "blog")
-				$content_type = $subtype;
-			else 
-				$content_type = "other";
-		} else 
-				$content_type = "other";
-		
+		$content_type = getContentTypeMapping($type, $subtype, $action_type);		
 		
 		$updateNEXUrankingNeeded = false;
 		$friendsList = $subject->getFriends("",100);
@@ -145,6 +126,30 @@ $posted = 0, $annotation_id = 0) {
 	} else {
 		return false;
 	}
+}
+
+/* Returns a mapping of the contentType -> for ranking algorithm */
+function getContentTypeMapping($type, $subtype, $action_type) {
+	if($type == "group" && $action_type == "join")
+		$content_type = "group";
+	else if($action_type == "comment" || $action_type == "reply")
+		$content_type = "comment";
+	else if($action_type == "friend")
+		$content_type = "new_friend";
+	else if($action_type == "create" || $action_type == "update") {
+		if($subtype == "bookmarks")
+			$content_type = "bookmark";
+		else if($subtype == "thewire")
+			$content_type = "status";
+		else if($subtype == "groupforumtopic")
+			$content_type = "discussion";
+		else if($subtype == "file" || $subtype == "blog")
+			$content_type = $subtype;
+		else 
+			$content_type = "other";
+	} else 
+			$content_type = "other";
+	return $content_type;		
 }
 
 /**
