@@ -4,6 +4,10 @@ include_once("entities.php");
 
 function get_stats($type, $month = 0, $perTool = 0, $interactionType, $tool = 0)  {
 	$response = array();
+	
+//	$month = $temp[0];
+//	$year = $temp[1];
+	
 	if($tool == "") {
 		$subtypes = array('blog','thewire','bookmarks','file','groupforumtopic');
 	} else {
@@ -37,7 +41,8 @@ function get_stats($type, $month = 0, $perTool = 0, $interactionType, $tool = 0)
 	return $response;
 }
 
-function doQuery($type, $month, $interactionType, $subtypes, $alias) {	
+function doQuery($type, $monthYear, $interactionType, $subtypes, $alias) {	
+	
 	if($interactionType == "creator") {
 		if($type == "usage_frequency") {
 			$toSelect = "user.guid as guid, user.name as name";
