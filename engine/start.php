@@ -143,6 +143,12 @@ expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type'
 
 						'A method that returns the activities window of the user', 'GET', false, false);
 */
+
+expose_function("get_authorship", "get_authorship", array( 'guid' => array ('type' => 'string', 'required' => true), 
+						'timestamp' => array('type' => 'string', 'required' => false, 'default' => '0')
+					 ), 'A method that returns the authorship of the user', 'GET', false, false);
+
+						
 expose_function("stats", "get_stats", array( 'type' => array ('type' => 'string'),
 											 'month' => array ('type' => 'string','required' => false, 'default'=> 0),
 											 'perTool' => array ('type' => 'string','required' => false, 'default'=> 0),
