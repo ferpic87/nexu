@@ -133,7 +133,7 @@ $CONFIG->boot_complete = true;
 // System loaded and ready
 elgg_trigger_event('ready', 'system');
 
-expose_function("members", "get_members", array(), 'A method that returns all the info about the members', 'GET', false, false);
+expose_function("members", "get_members", array('getAll' => array ('type' => 'string','required' => false, 'default'=> false)), 'A method that returns all the info about the members', 'GET', false, false);
 
 expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type' => 'string'),
                        'what_to_retrieve' => array ('type' => 'string'),
@@ -150,7 +150,8 @@ expose_function("get_authorship", "get_authorship", array( 'guid' => array ('typ
 
 						
 expose_function("stats", "get_stats", array( 'type' => array ('type' => 'string'),
-											 'month' => array ('type' => 'string','required' => false, 'default'=> 0),
+											 'timeStart' => array ('type' => 'string','required' => false, 'default'=> 0),
+											 'timeEnd' => array ('type' => 'string','required' => false, 'default'=> 0),
 											 'perTool' => array ('type' => 'string','required' => false, 'default'=> 0),
 											 'interactionType' => array ('type' => 'string','required' => true),
 											 'tool' => array ('type' => 'string','required' => false, 'default'=> "")), 
