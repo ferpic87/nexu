@@ -89,8 +89,12 @@ function getContentCreated($fieldToSelect, $groupby, $type, $timeStart,$timeEnd,
 		$timeClause = "log.time_created >='".$timeStart."'"; 
 	}
 
+	$togliBozzeClause = "log.object_id not in (SELECT distinct object_id as guid FROM `elgg_system_log` log 
+join elgg_objects_entity ent on log.object_id = ent.guid 
+join elgg_annotations ann on log.object_id = ann.entity_guid
+where ann.name_id = 38)";
 	
-	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.time_created >= 1372636800 and log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($timeClause) and log.event = 'create' group by $groupby order by $alias desc";
+	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.time_created >= 1372636800 and log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($timeClause) and log.event = 'create' and $togliBozzeClause group by $groupby order by $alias desc";
 	
 	$response = get_data($query);
 	error_log("q=".$query);
