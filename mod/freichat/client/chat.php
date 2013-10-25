@@ -362,6 +362,7 @@ $url = str_replace("chat.php", "", $url);
 
                     }
 
+
                     FreiChat.room_users_div.append(wrapper).listview("refresh");
                 }
                 ;
@@ -535,4 +536,5 @@ $url = str_replace("chat.php", "", $url);
 
     </script>
 
+ 
 </html>

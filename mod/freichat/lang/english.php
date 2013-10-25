@@ -84,7 +84,7 @@ language then please write in the format similar to the file english.php
     $frei_trans["chatroom_creator_new"] = "enter chatroom name";
     $frei_trans["chatroom_creator_pass"] = "enter chatroom password";
     $frei_trans["chatroom_creator_paswd"] = "password protected";
-    $frei_trans["chatroom_creator"] = "crea chatroom";
+    $frei_trans["chatroom_creator"] = "create chatroom";
     $frei_trans["create_chatroom_title"] = "Create your chatroom";
     $frei_trans["chatroom_creator_exists"] = "A chatroom with the same name already exists";
     

@@ -6,6 +6,12 @@ g->guest
 Do not use space but nbsp;
 If you have copied this file and you are making your own
 language then please write in the format similar to english.php
+
+ * FreiChat
+ * Company:      PosteItaliane
+ * @author Ing. G.Acierno
+ * @version 1.0
+ 
 */
 
 
@@ -61,7 +67,7 @@ language then please write in the format similar to english.php
     
     $frei_trans['chat_message_me'] = 'Io';
     
-    $frei_trans['chat_status'] = 'utente è offline. I messaggi inviati saranno consegnati quando sarà in linea.';
+    $frei_trans['chat_status'] = 'utente offline. I messaggi inviati saranno consegnati quando sarà in linea.';
     
     $frei_trans['rtl'] = 'Passa a rtl testo';
     
@@ -70,7 +76,24 @@ language then please write in the format similar to english.php
     $frei_trans['ban_mesg'] = 'Tu Sei Bannato';
     
     $frei_trans['chatroom_label']='Chat Room';
+    $frei_trans['chatroom_noline']   =  'You are the only one online here';
     
     $frei_trans['no_search_results'] = 'Nessun Risultato!';
+    $frei_trans["custom_mesg_update"] = 'Update';
+  
+    $frei_trans['chatroom_tab_users'] = 'USERS';
+    $frei_trans['chatroom_tab_rooms'] = 'Rooms';
+    $frei_trans['chatroom_lobby'] = 'rooms';
+    $frei_trans['new_chatroom_message'] = '<strong>Ciao!</strong>Nuovo messaggio di chatroom';
+    
+    $frei_trans["chatroom_creator_new"] = "enter chatroom name";
+    $frei_trans["chatroom_creator_pass"] = "enter chatroom password";
+    $frei_trans["chatroom_creator_paswd"] = "password protected";
+    $frei_trans["chatroom_creator"] = "crea chatroom";
+    $frei_trans["create_chatroom_title"] = "Crea la tua chatroom";
+    $frei_trans["chatroom_creator_exists"] = "A chatroom già esistente";
+    
+    $frei_trans["cancel"] = "cancel";
+    $frei_trans["yes"] = "Yes";
     
          return 1;

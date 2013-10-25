@@ -236,7 +236,7 @@ function get_file_names($path, $type, $replace = false) {
                     <div style="text-align:left;width:150px;margin: 0px auto">
 
 
-                        Powered By <a target="_blank" style="color:blue" href="http://www.poste.it/azienda/research_development/">Modern</a>
+                        Powered By <a target="_blank" style="color:blue" href="http://codologic.com">Codologic</a>
 
                     </div>
 

@@ -409,5 +409,5 @@ date_default_timezone_set('America/Los_Angeles');
         <div class="wrapper">
             <div style="text-align:center">
 
-                <a href="http://www.poste.it/azienda/research_development/"><img src="../administrator/admin_files/home/head.png" height=100  /></a>
+                <a href="http://codologic.com"><img src="../administrator/admin_files/home/head.png" height=100  /></a>
             </div>

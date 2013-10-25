@@ -133,7 +133,7 @@ $('document').ready(function() {
             <div id='frei_chatroom_back_btn' class='frei_chatroom_btn'>Hide</div>\n\
         </div>\n\
 <div id='frei_lobby'>\n\
-    <div class='frei_chatroom_options' id='frei_chatroom_options'><a id='frei_create_chatroom'>crea chatroom</a></div>\n\
+    <div class='frei_chatroom_options' id='frei_chatroom_options'><a id='frei_create_chatroom'>create chatroom</a></div>\n\
     <div class='frei_chatroom_creator' id='frei_chatroom_creator'>\n\
         <div id='frei_chatroom_creator_error' class='frei_chatroom_creator_error'>"+freidefines.TRANS.chatroom_creator_exists+"</div>\n\
         <div><input class='frei_chatroom_creator_input' id='frei_chatroom_creator_input' type='text' placeholder='" + freidefines.TRANS.chatroom_creator_new + "' /></div>\n\

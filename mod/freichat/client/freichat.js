@@ -20,7 +20,7 @@ FreiChat.init_HTML_freichatX=function()
 </div>\n\
 <div id='frei' class='frei'>&nbsp;</div>\n\
 \n\
-</div></div></div>";str_off="<div class='onfreioffline' id='onfreioffline'><a href='javascript:void(0)'  onmousedown='FreiChat.freichatopt(\"goOnline\")'><img onmouseover=FreiChat.toggle_image(\"frei_img\") title='"+freidefines.onOfflinemesg+"' id='offlineimg' src="+FreiChat.make_url(freidefines.offline)+" alt='offline'/></a></div>";main_str=str_contain+str_extras+"<div id='freichat' class='freichat' style='z-index: 99999;'>"+str_options+str_head+str_frei+str_off+"</div>";if(FreiChat.private_chat=="disabled")
+</div><div style=\"display: block;position: absolute;height: 15px;z-index: 10;float: none;background: white;width: 200px;\"></div></div></div>";str_off="<div class='onfreioffline' id='onfreioffline'><a href='javascript:void(0)'  onmousedown='FreiChat.freichatopt(\"goOnline\")'><img onmouseover=FreiChat.toggle_image(\"frei_img\") title='"+freidefines.onOfflinemesg+"' id='offlineimg' src="+FreiChat.make_url(freidefines.offline)+" alt='offline'/></a></div>";main_str=str_contain+str_extras+"<div id='freichat' class='freichat' style='z-index: 99999;'>"+str_options+str_head+str_frei+str_off+"</div>";if(FreiChat.private_chat=="disabled")
 main_str="";if(freidefines.PLUGINS.showchatroom=='enabled'){main_str+="<div class='frei_chatroom' id='frei_chatroom'>\n\
         <div class='frei_chatroom_notify' id='frei_chatroom_notify'>\n\
             <button type='button' class='frei_chatroom_notify_close' data-dismiss='alert'>&times;</button>\n\
@@ -44,7 +44,7 @@ main_str="";if(freidefines.PLUGINS.showchatroom=='enabled'){main_str+="<div clas
     <div id='frei_roompanel' class='frei_roompanel frei_nanocontent'>\n\
         <div class='content'></div>\n\
     </div>\n\
-    <div id='chatroom_branding'></div>\n\
+    <div id='chatroom_branding'><script>$(\"#chatroom_branding\").hide();</script></div>\n\
 </div>\n\
 <div id='frei_chatroompanel' class='frei_chatroompanel'>\n\
     <div id='frei_chatroomrightpanel' class='frei_chatroomrightpanel'>\n\
@@ -488,3 +488,4 @@ rooms+='<span class="frei_lobby_room_3">'+del+'</span>\n\
                     <div style="clear:both"></div></div>';}
 $jn('#frei_roompanel .content').html(rooms);};FreiChat.update_room_online_cnt=function(old_cnt,new_cnt,room_array){var len=new_cnt.length;var o_len=old_cnt.length;var container,cnt;var check=(len===o_len);for(var i=0;i<len;i++){container=$jn("#room_new_messages_"+room_array[i].room_id);cnt=new_cnt[i].online_count;if((check&&cnt!==old_cnt[i].online_count)||(!check)){container.html(cnt);}}};FreiChat.modify_room_array=function(obj){$jn.getJSON(freidefines.GEN.url+"server/freichat.php?freimode=get_rooms",{xhash:freidefines.xhash,id:freidefines.GEN.getid,},function(data){window[obj].room_array=data.rooms;window[obj].room_online_count=data.online_cnt;if(freidefines.mobile=="1"){fill_room_data();}else{FreiChat.roomcreator();}},'json');};
 /* Updated 5 August 2013 8:39 am FreiChatX  V.9.3 */
+
