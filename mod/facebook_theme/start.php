@@ -8,6 +8,7 @@ function facebook_theme_init() {
 	elgg_register_page_handler('profile', 'facebook_theme_profile_page_handler');
 	elgg_register_page_handler('dashboard', 'facebook_theme_dashboard_handler');
 	elgg_register_page_handler('user_connections', 'facebook_theme_user_connections_handler');
+	elgg_register_page_handler('experiment', 'facebook_theme_experiment_handler');
 	
 	//What a hack!  Overriding groups page handler without blowing away other plugins doing the same
 	global $CONFIG, $facebook_theme_original_groups_page_handler;
@@ -133,27 +134,31 @@ function facebook_theme_pagesetup_handler() {
 			'priority' => 500,
 			'contexts' => array('dashboard'),
 		));
-
-		if ($owner instanceof ElggUser && $owner->guid != $user->guid) {
 			
+		if ($owner instanceof ElggUser && $owner->guid != $user->guid) {
 			if (check_entity_relationship($user->guid, 'friend', $owner->guid)) {
-				elgg_register_menu_item('extras', array(
-					'name' => 'removefriend',
-					'text' => elgg_echo('friend:remove'),
-					'href' => "/action/friends/remove?friend=$owner->guid",
-					'is_action' => TRUE,
-					'contexts' => array('profile'),
-				));
+				
+				if($owner->guid != 4455) {
+					elgg_register_menu_item('extras', array(
+						'name' => 'removefriend',
+						'text' => elgg_echo('friend:remove'),
+						'href' => "/action/friends/remove?friend=$owner->guid",
+						'is_action' => TRUE,
+						'contexts' => array('profile'),
+					));
+				}
 			} else {
-				elgg_register_menu_item('title', array(
-					'name' => 'addfriend',
-					'text' => elgg_view_icon('users') . elgg_echo('friend:add'),
-					'href' => "/action/friends/add?friend=$owner->guid",
-					'is_action' => TRUE,
-					'link_class' => 'elgg-button elgg-button-special',
-					'contexts' => array('profile'),
-					'priority' => 1,
-				));
+				if($owner->guid != 4455) {
+					elgg_register_menu_item('title', array(
+						'name' => 'addfriend',
+						'text' => elgg_view_icon('users') . elgg_echo('friend:add'),
+						'href' => "/action/friends/add?friend=$owner->guid",
+						'is_action' => TRUE,
+						'link_class' => 'elgg-button elgg-button-special',
+						'contexts' => array('profile'),
+						'priority' => 1,
+					));
+				}
 			}
 			
 			if (elgg_is_active_plugin('messages')) {
@@ -481,6 +486,10 @@ function facebook_theme_user_connections_handler() {
 	return true;
 }
 
+function facebook_theme_experiment_handler() {
+	require_once dirname(__FILE__) . '/pages/experiment.php';
+	return true;
+}
 
 function facebook_theme_index_handler() {
 	if (elgg_is_logged_in()) {
