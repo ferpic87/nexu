@@ -89,12 +89,25 @@ function getContentCreated($fieldToSelect, $groupby, $type, $timeStart,$timeEnd,
 		$timeClause = "log.time_created >='".$timeStart."'"; 
 	}
 
-	$togliBozzeClause = "log.object_id not in (SELECT distinct object_id as guid FROM `elgg_system_log` log 
+	/*$togliBozzeClause = true;"log.object_id NOT IN (SELECT distinct object_id as guid FROM `elgg_system_log` log 
 join elgg_objects_entity ent on log.object_id = ent.guid 
 join elgg_annotations ann on log.object_id = ann.entity_guid
-where ann.name_id = 38)";
+where ann.name_id = 33)";*/
+
+	/*$togliBozzeClause = "log.object_id NOT_IN(SELECT  object_id  from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) 
+	join elgg_objects_entity obj on (log.object_id = obj.guid) join elgg_metadata met on(log.object_id = met.entity_guid) where log.object_type = 'object' and 
+	((log.object_subtype = 'blog') or (log.object_subtype = 'thewire') or (log.object_subtype = 'bookmarks') or (log.object_subtype = 'file') or (log.object_subtype = 'groupforumtopic'))
+	and and met.value_id = 828 and user.name <> 'admin' and log.event = 'create')";*/
 	
+	$togliBozzeClause = "log.object_id NOT IN (SELECT distinct object_id  from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) 
+	join elgg_objects_entity obj on (log.object_id = obj.guid) join elgg_metadata met on(log.object_id = met.entity_guid)
+	where log.object_type = 'object' and 
+	((log.object_subtype = 'blog') or (log.object_subtype = 'bookmarks') or (log.object_subtype = 'file') or (log.object_subtype = 'groupforumtopic')) 
+	and met.value_id = 828 and user.name <> 'admin' and log.event = 'create')";	
+
 	$query = "select $fieldToSelect,count(*) as $alias from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) join elgg_objects_entity obj on (log.object_id = obj.guid) where log.time_created >= 1372636800 and log.object_type = 'object' and ($subtypeClause) and user.name <> 'admin' and ($timeClause) and log.event = 'create' and $togliBozzeClause group by $groupby order by $alias desc";
+
+
 	
 	$response = get_data($query);
 	error_log("q=".$query);
@@ -127,7 +140,7 @@ function getNumberOfInteractions($fieldToSelect, $groupby, $type, $timeStart,$ti
 	}
 
 	
-	$query = "SELECT $fieldToSelect, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE  ann.time_created >= 1372636800 and ($interactionClause) and ($subtypeClause) and $timeClause group by $groupby order by $alias desc";
+	$query = "SELECT $fieldToSelect, count(*) as $alias FROM elgg_annotations ann JOIN elgg_users_entity user ON ( ann.owner_guid = user.guid ) JOIN elgg_entities ent ON ( ann.entity_guid = ent.guid ) JOIN elgg_entity_subtypes sub ON ( ent.subtype = sub.id) WHERE  ann.time_created >= 1372636800 and ($interactionClause) and ($subtypeClause) and $timeClause group by $groupby order by $alias desc";	
 	$response = get_data($query);
 	error_log("q=".$query);
 	return $response;
