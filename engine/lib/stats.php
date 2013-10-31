@@ -88,16 +88,6 @@ function getContentCreated($fieldToSelect, $groupby, $type, $timeStart,$timeEnd,
 		//$timeClause = "log.time_created >= '".$timeStart."' AND log.time_created <='".$timeEnd."'"; 
 		$timeClause = "log.time_created >='".$timeStart."'"; 
 	}
-
-	/*$togliBozzeClause = true;"log.object_id NOT IN (SELECT distinct object_id as guid FROM `elgg_system_log` log 
-join elgg_objects_entity ent on log.object_id = ent.guid 
-join elgg_annotations ann on log.object_id = ann.entity_guid
-where ann.name_id = 33)";*/
-
-	/*$togliBozzeClause = "log.object_id NOT_IN(SELECT  object_id  from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) 
-	join elgg_objects_entity obj on (log.object_id = obj.guid) join elgg_metadata met on(log.object_id = met.entity_guid) where log.object_type = 'object' and 
-	((log.object_subtype = 'blog') or (log.object_subtype = 'thewire') or (log.object_subtype = 'bookmarks') or (log.object_subtype = 'file') or (log.object_subtype = 'groupforumtopic'))
-	and and met.value_id = 828 and user.name <> 'admin' and log.event = 'create')";*/
 	
 	$togliBozzeClause = "log.object_id NOT IN (SELECT distinct object_id  from elgg_system_log log join elgg_users_entity user on (log.performed_by_guid = user.guid) 
 	join elgg_objects_entity obj on (log.object_id = obj.guid) join elgg_metadata met on(log.object_id = met.entity_guid)
@@ -130,12 +120,9 @@ function getNumberOfInteractions($fieldToSelect, $groupby, $type, $timeStart,$ti
 	}
 	
 	if($timeStart!= 0 && $timeEnd !=0) {
-		//$timeClause = "month(from_unixtime(ann.time_created)) = '".$month."'";
-		//$timeClause = "log.time_created >= '".$timeStart."' AND log.time_created <='".$timeEnd."'"; 
 		$timeClause = "ann.time_created BETWEEN '".$timeStart."' AND '".$timeEnd."'"; 
 	}
 		if($timeStart!= 0 && $timeEnd ==0) {
-		//$timeClause = "log.time_created >= '".$timeStart."' AND log.time_created <='".$timeEnd."'"; 
 		$timeClause = "ann.time_created >='".$timeStart."'"; 
 	}
 
