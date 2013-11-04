@@ -35,7 +35,7 @@ language then please write in the format similar to english.php
     $frei_trans['titles_upload']        =       'Invia&nbsp;file';
     $frei_trans['titles_smiley']        =       'Inserisci smiley';
     $frei_trans['titles_save']        =       'Salva lo Storico Chat';
-    $frei_trans["titles_mail"] 		=       'Invia&nbsp;conversazione&nbsp;in email&nbsp; ';
+    $frei_trans["titles_mail"] 		=       'Invia&nbsp;conversazione&nbsp;as&nbsp; in email';
     $frei_trans["titles_videochat"]     =       'Invita&nbsp;to&nbsp;Video&nbsp;Chat';
 
     $frei_trans['status_online']        =       'Tu Sei online';
@@ -57,7 +57,7 @@ language then please write in the format similar to english.php
 
     $frei_trans['set_custom_mesg']   =       'Imposta Messaggio Personalizzato:';
     
-    $frei_trans['chat_room_title'] = 'Chat Room';
+    $frei_trans['chat_room_title'] = 'Stanze Chat';
     
     $frei_trans['chat_message_me'] = 'Io';
     
@@ -69,7 +69,7 @@ language then please write in the format similar to english.php
     
     $frei_trans['ban_mesg'] = 'Tu Sei Bannato';
     
-    $frei_trans['chatroom_label']='Chat Room';
+    $frei_trans['chatroom_label']='Stanze Chat';
     
     $frei_trans['no_search_results'] = 'Nessun Risultato!';
     

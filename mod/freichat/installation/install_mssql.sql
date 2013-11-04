@@ -127,7 +127,9 @@ BEGIN
                         ( 'ACL', 'video', 'guest', 'allow'),
                         ( 'ACL', 'chatroom_crt', 'user', 'allow'),
                         ( 'ACL', 'chatroom_crt', 'guest', 'noallow'),
-                        ( 'plugins', 'chatroom', 'chatroom_expiry', '3600')
+                        ( 'plugins', 'chatroom', 'chatroom_expiry', '3600'),
+                        ( 'chat_time_shown_always', 'NULL', 'NULL', 'no'),
+                        ( 'allow_guest_name_change', 'NULL', 'NULL', 'yes');
 END;
 
 IF object_id('frei_rooms', 'U') is null
@@ -153,7 +155,7 @@ BEGIN
         INSERT INTO `frei_rooms` (`id`, `room_author`, `room_name`, `room_type`, `room_password`, `room_created`, `room_last_active`, `room_order`) VALUES
                 ( 'admin', 'Fun Talk', 0, '', 1373557250, 1373557250, 1),
                 ( 'admin', 'Crazy chat', 0, '', 1373557260, 1373557260, 5),
-                ( 'admin', 'Think out lout', 0, '', 1373557872, 1373557872, 2),
+                ( 'admin', 'Think out loud', 0, '', 1373557872, 1373557872, 2),
                 ( 'admin', 'Talk to me ', 0, '', 1373558017, 1373558017, 3),
                 ( 'admin', 'Talk innovative', 0, '', 1373558039, 1373799404, 4)
 END;

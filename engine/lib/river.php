@@ -131,7 +131,7 @@ $posted = 0, $annotation_id = 0) {
 /* Returns a mapping of the contentType -> for ranking algorithm */
 function getContentTypeMapping($type, $subtype, $action_type) {
 	if($type == "group" && $action_type == "join")
-		$content_type = "group";
+		$content_type = "join_group";
 	else if($action_type == "comment" || $action_type == "reply")
 		$content_type = "comment";
 	else if($action_type == "friend")

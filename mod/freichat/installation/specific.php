@@ -111,6 +111,11 @@ require "header.php";
                 array(
                     "value" => "Jcow",
                     "text" => "Jcow"
+                ),
+                
+                array(
+                    "value" => "Etano",
+                    "text" => "Etano"
                 )
 
             );

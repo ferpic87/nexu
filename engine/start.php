@@ -154,3 +154,9 @@ expose_function("stats", "get_stats", array( 'type' => array ('type' => 'string'
 											 'interactionType' => array ('type' => 'string','required' => true),
 											 'tool' => array ('type' => 'string','required' => false, 'default'=> "")), 
 						'A method that the stats of the community', 'GET', false, false);
+expose_function("experiment", "save_permutations_data", array( 	'id' => array ('type' => 'string'),
+																'permutations' => array ('type' => 'string'),
+											), 
+						'A method that saves the permutations for the experiment', 'POST', false, false);
+expose_function("permutations", "get_permutations_data", array(), 
+						'A method that returns the permutations for the experiment', 'GET', false, false);						

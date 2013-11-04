@@ -10,6 +10,9 @@ language then please write in the format similar to the file english.php
 
 //NOTE: &nbsp; is euivalent to a space 
 
+    //V9.4
+    $frei_trans['custom_guest_name_exists'] =   "Another person with same name already exists . PLease choose a different name!";
+
     $frei_trans['cb_head']           =          'Users';
     $frei_trans['g_prefix']          =          'Guest-';
     $frei_trans['pwdby']             =          'Powered By';
@@ -84,9 +87,13 @@ language then please write in the format similar to the file english.php
     $frei_trans["chatroom_creator_new"] = "enter chatroom name";
     $frei_trans["chatroom_creator_pass"] = "enter chatroom password";
     $frei_trans["chatroom_creator_paswd"] = "password protected";
-    $frei_trans["chatroom_creator"] = "crea chatroom";
+    $frei_trans["chatroom_creator"] = "create chatroom";
     $frei_trans["create_chatroom_title"] = "Create your chatroom";
     $frei_trans["chatroom_creator_exists"] = "A chatroom with the same name already exists";
+    
+    //V9.4
+    $frei_trans["chatroom_tools_toggle"] = "Show/hide chatroom options";
+    
     
     $frei_trans["cancel"] = "cancel";
     $frei_trans["yes"] = "Yes";
@@ -115,7 +122,11 @@ language then please write in the format similar to the file english.php
     
     $frei_trans["mobile_users"] = "users";
     $frei_trans["mobile_chatroom_users"] = "chatroom users";
-
+    
+    //9.4
+    $frei_trans["mobile_sound_toggle"] = "Switch sound on message:";
+    $frei_trans["mobile_notify_toggle"] = "Switch message notifications:";
+    
     /* VIDEOCHAT TRANSLATIONS */
     
     $frei_trans["win_title"] = "video chat";

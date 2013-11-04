@@ -21,7 +21,7 @@ class param extends FC_admin {
     public function create_url($name) {
         $url = str_replace("administrator/admin.php", "", $this->url);
 
-        return $url . 'client/themes/' . $this->freichat_theme . '/' . $name;
+        return $url . 'client/themes/smileys/' . $name;
     }
 
     public function create_tr($id, $symbol, $image_name) {
@@ -136,7 +136,7 @@ if (isset($_POST['draggable']) == true) {
 
         var url = '<?php echo str_replace("administrator/admin.php", "", $param->url); ?>';
         
-        url =  url+'client/themes/<?php echo $param->freichat_theme; ?>/'+name;
+        url =  url+'client/themes/smileys/'+name;
         var image = "<img id="+name+" src="+url+" />";
         
         var delete_btn = "<a onmousedown=delete_tr("+id+",'"+name+"') class='btn btn-danger' href='#'><i class='icon-trash icon-white'></i> Delete</a>";
@@ -185,7 +185,8 @@ if (isset($_POST['draggable']) == true) {
         xhr.setRequestHeader("X-File-Type", file.type);  
         xhr.setRequestHeader("X-Symbol", smiley_val);
         xhr.setRequestHeader("X-Action", action);   
-            
+        xhr.setRequestHeader("X-Type", 'smileys');   
+        
         if(typeof image_name !== 'undefined'){
             xhr.setRequestHeader("X-Imagename", image_name);   
         }

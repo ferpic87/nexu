@@ -156,12 +156,12 @@ $url = str_replace("chat.php", "", $url);
 
             <div data-role="content">
 
-                <label for="sound">Switch sound on message:</label>
+                <label for="sound"><?php echo $frei_trans["mobile_sound_toggle"]; ?></label>
                 <select name="flip-1" id="sound" data-role="slider">
                     <option value="off">Off</option>
                     <option value="on">On</option>
                 </select>
-                <label for="notify">Switch message notifications:</label>
+                <label for="notify"><?php echo $frei_trans["mobile_notify_toggle"]; ?></label>
                 <select name="flip-1" id="notify" data-role="slider">
                     <option value="off">Off</option>
                     <option value="on">On</option>

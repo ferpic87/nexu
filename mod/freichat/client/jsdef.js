@@ -53,7 +53,9 @@ freidefines = {
         fxval:'<?php echo $cvs->fxval; ?>', //Jquery Effects
         mesgSendSpeed:'<?php echo $cvs->msgSendSpeed; ?>',
         addedoptions_visibility:'<?php echo $cvs->addedoptions_visibility; ?>',
-        show_avatar: '<?php echo $cvs->show_avatar; ?>'
+        show_avatar: '<?php echo $cvs->show_avatar; ?>',
+        
+        allow_guest_name_change: '<?php echo $cvs->allow_guest_name_change; ?>'
     },  
     
     STATUS : {
@@ -85,6 +87,7 @@ freidefines = {
         chatroom_label:'<?php echo $frei_trans["chatroom_label"];?>',
         no_search_results:'<?php echo $frei_trans["no_search_results"]; ?>',
         custom_mesg_update:'<?php echo $frei_trans["custom_mesg_update"]; ?>',
+        g_prefix:'<?php echo $frei_trans["g_prefix"]; ?>',
         
         chatroom_tab_users: '<?php echo $frei_trans["chatroom_tab_users"]; ?>',
         chatroom_tab_rooms: '<?php echo $frei_trans["chatroom_tab_rooms"]; ?>',
@@ -100,7 +103,9 @@ freidefines = {
         chatroom_creator: '<?php echo $frei_trans["chatroom_creator"]; ?>',
         chatroom_creator_exists: '<?php echo $frei_trans["chatroom_creator_exists"]; ?>',
         cancel: '<?php echo $frei_trans["cancel"]; ?>',
-        create_chatroom_title: '<?php echo $frei_trans["create_chatroom_title"]; ?>'
+        create_chatroom_title: '<?php echo $frei_trans["create_chatroom_title"]; ?>',
+        custom_guest_name_exists: '<?php echo $frei_trans["custom_guest_name_exists"]; ?>',
+        chatroom_tools_toggle: '<?php echo $frei_trans["chatroom_tools_toggle"]; ?>'
     },
     
     lockedimg: '<?php echo $lockedimg; ?>',    
@@ -193,7 +198,9 @@ freidefines = {
         chatroom_offset: '<?php echo $cvs->chatroom_offset; ?>',
         chatroom_label_offset: '<?php echo $cvs->chatroom_label_offset; ?>',
         chatroom_rotate: '<?php echo $chatroom_rotate; ?>',
-        chatroom_override_positions: '<?php echo $cvs->chatroom_override_positions; ?>'
+        chatroom_override_positions: '<?php echo $cvs->chatroom_override_positions; ?>',
+        
+        chat_time_shown_always: '<?php echo $cvs->chat_time_shown_always; ?>'
     },  
 
 
@@ -298,5 +305,8 @@ var FreiChat = {
     video_message_sent:false,
     video_rids: [],
     jscrollers: [],
+    userdata: [],
+    custom_gst_name: freidefines.GEN.fromname,
+    g_prefix: freidefines.TRANS.g_prefix.replace("-","").toLowerCase(),
     jscroll: {} //all scroller objects for each chatwindow is stored here
 };

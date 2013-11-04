@@ -1,9 +1,3 @@
-<?php
-// Note: argument.php and css.php are connected
-include('argument.php');
-include 'chatroom_css_rtl.php';
-include 'speech_css.php';
-?>
 /*-------------------------------------------------------------------------------------------------------------------------------------*/
 /*Start of Main css style for the complete chatbox */
 .freichat{

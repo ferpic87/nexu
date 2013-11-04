@@ -1602,7 +1602,7 @@ function elgg_views_boot() {
 	elgg_register_js('underscore', '/vendors/underscore.js', 'head');
 	elgg_register_js('jquery.elastic', '/vendors/jquery/jquery.elastic.js', 'head');
 	elgg_register_js('jquery.events.input', '/vendors/jquery/jquery.events.input.js', 'head');
-
+	
 	elgg_register_js('jquery.mentionsInput', '/vendors/jquery/jquery.mentionsInput.js', 'head');
 
 

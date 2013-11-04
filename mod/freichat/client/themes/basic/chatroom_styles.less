@@ -116,11 +116,27 @@ border-bottom-left-radius: 5px;
                 a {
                     color: #fff;
                     font-size: 13px;
+                
+                    &:hover {
+                        color: #333;
+                        background: none;
+                    }
                 }
-                a:hover {
-                    color: #333;
-                    background: none;
-                }
+            }
+        }
+        
+        a {
+            
+            &:hover {
+                background: none;
+            }
+            
+            &:focus {
+                background: none;
+            }
+
+            &:active {
+                background: none
             }
         }
     }
@@ -405,7 +421,7 @@ width:63%;
 #frei_smileys_chatroom {
     position: absolute;
     left: 28%;
-    bottom: 16%;
+    bottom: 22%;
     z-index: 99999;
     border: 1px solid #ccc;
     border-radius: 3px;

@@ -2,7 +2,6 @@
 
 if (!isset($_REQUEST['freimode']))
     exit;
-
 if (get_magic_quotes_gpc()) {
     $process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
     while (list($key, $val) = each($process)) {
@@ -266,6 +265,12 @@ class Conn extends FreiChat {
         if ($_SESSION[$this->uid . 'custom_mesg'] != $options['custom_mesg'] || $_SESSION[$this->uid . 'in_room'] != $options['in_room']) {
             $update_usr_info = true;
         }
+        
+        if($_SESSION[$this->uid . 'usr_name'] != $options['custom_gst_name'] && $_SESSION[$this->uid . 'is_guest'] == 1) {
+            $_SESSION[$this->uid . 'usr_name'] = $options['custom_gst_name'];
+            $_SESSION[$this->uid . 'gst_nam'] = $_SESSION[$this->uid . 'usr_name'];
+            $update_usr_info = true;
+        }
 
         $sessions = new $this->driver($this->db);
         $sessions->uid = $this->uid;
@@ -345,7 +350,9 @@ class Conn extends FreiChat {
         }
 
         $custom_mesg = htmlentities($_GET['custom_mesg'], ENT_QUOTES, "UTF-8");
+        $custom_gst_name = htmlentities($_GET['custom_gst_name'], ENT_QUOTES, "UTF-8");
 
+        
         if ($_GET['custom_mesg'] != 'i am null') {
             $_SESSION[$this->uid . 'custom_mesg'] = $custom_mesg;
         }
@@ -355,6 +362,7 @@ class Conn extends FreiChat {
         $options = array(
             "id" => $_GET['id'],
             "custom_mesg" => $custom_mesg,
+            "custom_gst_name" => $custom_gst_name,
             "usr_list_wanted" => true,
             "first" => $_GET['first'],
             "in_room" => $active_room
@@ -454,7 +462,7 @@ class Conn extends FreiChat {
 
 
 
-                $freichat = $this->update_message_data($freichat, $uniqueids);
+                $freichat = $this->update_message_data($freichat);
                 if ($freichat->time > $_GET['time'] /* || $this->isset_video_offer == true */) {
                     // a new message !
                     $new_data = true;
@@ -490,8 +498,9 @@ class Conn extends FreiChat {
 
 //-------------------------------------------------------------------    
     public function make_array($arr) {
-        foreach ($arr as $array)
+        foreach ($arr as $array) {
             return explode(",", $array);
+        }
     }
 
 //-------------------------------------------------------------------

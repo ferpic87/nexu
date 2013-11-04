@@ -125,7 +125,9 @@ class FreiChat {
         $this->show_videochat_plugin = 'disabled';
         $this->show_mobilechat_plugin = 'disabled';
         $this->x_config = $parameters['x_config'];
-
+        $this->chat_time_shown_always = $parameters['chat_time_shown_always'];
+        $this->allow_guest_name_change = $parameters['allow_guest_name_change'];
+        
         $this->chatroom_expiry = $parameters['plugins']['chatroom']['chatroom_expiry'];
 
         //long polling

@@ -605,6 +605,13 @@ License: MIT
     background: white;
 }
 
+.frei_smileys_table {
+    border: 0;
+    margin: 0;
+    width: 100%;
+}
+
+
 .frei_smileys_table tr,
 .frei_smileys_table td,
 .frei_smileys_table th,
@@ -798,7 +805,6 @@ License: MIT
     color:black;
     float:right;
     font-size:9px;
-    visibility:hidden;
 }
 
 .freichathead {
@@ -928,49 +934,6 @@ License: MIT
 
 .custom_mesg {
     padding-top:16px;
-}
-
-.frei_custom_mesg_update_btn {
-    width:47px;
-    padding:4px 14px;
-    margin-bottom:0;
-    font-size:13px;
-    line-height:18px;
-    text-align:center;
-    vertical-align:middle;
-    cursor:pointer;
-    color:#333;
-    text-shadow:0 1px 1px rgba(255,255,255,0.75);
-    background-color:whiteSmoke;
-    background-image:-moz-linear-gradient(top,white,#E6E6E6);
-    background-image:-webkit-gradient(linear,0 0,0 100%,from(white),to(#E6E6E6));
-    background-image:-webkit-linear-gradient(top,white,#E6E6E6);
-    background-image:-o-linear-gradient(top,white,#E6E6E6);
-    background-image:linear-gradient(to bottom,white,#E6E6E6);
-    background-repeat:repeat-x;
-    filter:progid;
-    border-color:#E6E6E6 #E6E6E6 #BFBFBF;
-    border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-    filter:progid;
-    border:1px solid #BBB;
-    border-bottom-color:#A2A2A2;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
-    -moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.frei_custom_mesg_update_btn:hover {
-    color:#333;
-    text-decoration:none;
-    background-color:#E6E6E6;
-    background-position:0 -15px;
-    -webkit-transition:background-position .1s linear;
-    -moz-transition:background-position .1s linear;
-    -o-transition:background-position .1s linear;
-    transition:background-position .1s linear;
 }
 
 .chatboxmessage {
@@ -1278,10 +1241,9 @@ License: MIT
 }
 
 .frei_options {
-    border-radius:4px 4px 0px 0px;
-    background:none;
-    padding-left:20px;
-    width:180px;
+  border-radius: 4px;
+  width: 199px;
+  margin-bottom: -10px;
 }
 
 .frei_options a {
@@ -1290,6 +1252,83 @@ License: MIT
     font-weight:normal;
     font-size:12px;
 }
+
+.frei_options >div {
+  padding-left: 20px;
+}
+.frei_options input {
+  font-family: Tahoma, sans-serif;
+  width: 125px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  font-size: 11px;
+  font-weight: normal;
+  border-right: 0;
+}
+.frei_options input:focus {
+  border-color: rgba(82,168,236,0.8);
+  outline: 0;
+  outline: thin dotted 9;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(82,168,236,0.6);
+}
+.frei_options button {
+  display: inline-block;
+  padding: 3px 5px;
+  margin: 0;
+  margin-left: -5px;
+  font-size: 13px;
+  line-height: 17px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #333;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+  background-color: whiteSmoke;
+  background-image: -moz-linear-gradient(top,white,#E6E6E6);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(white),to(#E6E6E6));
+  background-image: -webkit-linear-gradient(top,white,#E6E6E6);
+  background-image: -o-linear-gradient(top,white,#E6E6E6);
+  background-image: linear-gradient(to bottom,white,#E6E6E6);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe5e5e5',GradientType=0);
+  border-color: #E6E6E6 #E6E6E6 #BFBFBF;
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  border: 1px solid #BBB;
+  border-bottom-color: #A2A2A2;
+  -webkit-border-radius: 0px 4px 4px 0px;
+  -moz-border-radius: 0px 4px 4px 0px;
+  border-radius: 0px 4px 4px 0px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+  border-left: 1px solid #ccc;
+}
+.frei_options button:hover {
+  color: #333;
+  text-decoration: none;
+  background-color: #E6E6E6;
+  background-position: 0 -15px;
+  -webkit-transition: background-position .1s linear;
+  -moz-transition: background-position .1s linear;
+  -o-transition: background-position .1s linear;
+  transition: background-position .1s linear;
+}
+.frei_options > div[title] {
+  padding: 5px;
+  background: whitesmoke;
+  padding-left: 10px;
+  color: #222;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  margin-top: 5px;
+}
+.custom_mesg {
+  padding-top: 8px;
+}
+
 
 .self_status_img img {
     padding-top:2px;
@@ -1364,13 +1403,6 @@ License: MIT
     cursor:pointer;
     color:#333;
     text-shadow:0 1px 1px rgba(255,255,255,0.75);
-    background-color:whiteSmoke;
-    background-image:-moz-linear-gradient(top,white,#E6E6E6);
-    background-image:-webkit-gradient(linear,0 0,0 100%,from(white),to(#E6E6E6));
-    background-image:-webkit-linear-gradient(top,white,#E6E6E6);
-    background-image:-o-linear-gradient(top,white,#E6E6E6);
-    background-image:linear-gradient(to bottom,white,#E6E6E6);
-    background-repeat:repeat-x;
     filter:progid;
     border-color:#E6E6E6 #E6E6E6 #BFBFBF;
     border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
@@ -1390,15 +1422,6 @@ License: MIT
 .chatboxinfo {
     margin-left:-1em;
     color:#666666;
-}
-
-#custom_message_id {
-    font-family:Tahoma, sans-serif;
-    width:120px;
-    border:1px solid gray;
-    padding:5px;
-    font-size:11px;
-    font-weight:bold;
 }
 
 .frei_option_bar {
@@ -1750,13 +1773,20 @@ License: MIT
     color:black;
     text-decoration: none;
     border-bottom: 1px dotted black;
-
+    background: inherit;
 }
 
-.frei_chatroom-content a:hover {
+.frei_chatroom-content a:hover, 
+.frei_chatroom-content a:focus, 
+.frei_chatroom-content a:active
+{
     text-decoration: none;
-    border-bottom: 1px solid black;    
+    border-bottom: 1px solid black;  
+    background: none;
 }
+
+
+
 .frei_chatroom-content p {
     margin-bottom:1em;
     line-height:1.5em;
@@ -1949,7 +1979,7 @@ License: MIT
 #frei_smileys_chatroom {
     position: absolute;
     left: 28%;
-    bottom: 16%;
+    bottom: 22%;
     z-index: 99999;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -2176,9 +2206,9 @@ License: MIT
     box-shadow:inset 0px 1px 6px #bba;
 }
 
-#frei_userpanel {
-    float:left;
-    display:none;
+#frei_userpanel,
+#frei_roompanel {
+  display: block;
 }
 
 #frei_roompanel {

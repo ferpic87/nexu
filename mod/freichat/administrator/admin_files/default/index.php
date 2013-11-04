@@ -132,7 +132,7 @@
 
                     <div class="info_circ_content">
                         <div class="info_circ_text">
-                            9.3
+                            9.4
                         </div>                        
                         <div class="info_circ_desc">Current version</div>
 

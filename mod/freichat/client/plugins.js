@@ -243,7 +243,7 @@ FreiChat.SmileyGenerate = function(messages, id)
     var i = 0;
     for (i = 0; i < smileys.length; i++) {
 
-        replaced_mesg = replaced_mesg.frei_smiley_replace(smileys[i].symbol, '<img id="smile__' + id + '" src="' + FreiChat.make_url(smileys[i].image_name) + '" alt="smile" />');
+        replaced_mesg = replaced_mesg.frei_smiley_replace(smileys[i].symbol, '<img id="smile__' + id + '" src="' + FreiChat.make_url(smileys[i].image_name,"smileys") + '" alt="smile" />');
 
     }
     return replaced_mesg;
@@ -467,11 +467,15 @@ FreiChat.getGMT_time = function() {
 };
 //-----------------------------------------------------------------------------------------------
 FreiChat.show_time = function(id) {
-    $jn("#freichat_time_" + id).css("visibility", "visible");
+
+    if (freidefines.PLUGINS.chat_time_shown_always === 'no')
+        $jn("#freichat_time_" + id).css("visibility", "visible");
 };
 //-----------------------------------------------------------------------------------------------
 FreiChat.hide_time = function(id) {
-    $jn("#freichat_time_" + id).css("visibility", "hidden");
+
+    if (freidefines.PLUGINS.chat_time_shown_always === 'no')
+        $jn("#freichat_time_" + id).css("visibility", "hidden");
 };
 //-----------------------------------------------------------------------------------------------
 /* Time */
@@ -518,6 +522,53 @@ FreiChat.show_prompt = function(mesg) {
     var mesg = prompt(mesg);
 
     return mesg;
+};
+//-------------scrolls down the scroller ---------------------------
+
+FreiChat.update_custom_gst_name = function() {
+
+    FreiChat.freichatopt("nooptions");
+
+    var name = $jn('#custom_guest_name_id').val();
+
+    if (FreiChat.name_exists(name)) {
+
+        alert(freidefines.TRANS.custom_guest_name_exists);
+        return;
+    }
+
+    var l_name = name.toLowerCase();
+    if (l_name.indexOf(FreiChat.g_prefix) >= 0) {
+        FreiChat.custom_gst_name = name;
+    } else {
+        FreiChat.custom_gst_name = FreiChat.mod_guest_name(name,false);
+    }
+
+};
+
+FreiChat.mod_guest_name = function(name,dup) {
+  
+    if(dup) {
+        
+        return name + Math.floor(Math.random() * 90 + 10);
+    }else{
+        return name + " (" + FreiChat.g_prefix + ")";         
+    }
+};
+
+FreiChat.name_exists = function(name) {
+    
+    var len = FreiChat.userdata.length;
+
+    //here len>0 makes sure that len-- does not make len as -1 
+    while (len>0 && len--) {
+
+        if (name === FreiChat.userdata[len].show_name 
+                || FreiChat.mod_guest_name(name,false) === FreiChat.userdata[len].show_name)
+            break;
+    }
+
+    return !!len; 
 };
 //-------------scrolls down the scroller ---------------------------
 

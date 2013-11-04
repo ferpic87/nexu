@@ -153,7 +153,7 @@ if (extension_loaded('PDO') && extension_loaded('pdo_mysql')) {
         
         $cms = $_POST['cms'];
         
-        if($cms == 'se4') {
+        if($cms == 'se4' || $cms == 'etano') {
             $use_cookie = '"freichat_user"';
         }else{
             $use_cookie = 'false';

@@ -101,7 +101,7 @@ text-align:center;
         <div class="wrapper">
             <div class="logo">
 
-                <a href="http://www.poste.it/azienda/research_development/"><img src="administrator/admin_files/home/head.png" height=100  /></a>
+                <a href="http://codologic.com"><img src="administrator/admin_files/home/head.png" height=100  /></a>
             </div>
 
 
@@ -118,7 +118,7 @@ text-align:center;
 
     <div class="footer">
   <p style="text-align:center;font-size:8pt;">
-    &#169;<?php echo date('Y'); ?> <a style="color: blue" href="http://www.poste.it/azienda/research_development/">Modern</a> 
+    &#169;<?php echo date('Y'); ?> <a style="color: blue" href="http://codologic.com">Codologic.com</a> 
     - <a  style="color: blue" href="installation/license.txt" target="_blank">Terms & Conditions</a>
 </p>
     </div>

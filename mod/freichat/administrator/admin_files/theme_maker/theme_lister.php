@@ -204,6 +204,9 @@ if (isset($_GET['do'])) {
                         $themes = $thm->list_themes();
                         $a = '';
                         foreach ($themes as $theme) {
+                            
+                            if($theme == "smileys") continue;
+                            
                             echo '<div class="theme_element">
             <span onclick="" id="theme_name_' . $theme . '" class="elem_theme_name">' . $theme . '</span>
 <span onclick="delete_theme(\'' . $theme . '\')" class="elem_delete"><img src="admin_files/theme_maker/delete.jpg" height="33px" width="40px" alt="delete"/></span>

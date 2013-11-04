@@ -1,3 +1,38 @@
+<!--===========================FreiChatX=======START=========================-->
+<!--	For uninstalling ME , first remove/comment all FreiChatX related code i.e below code
+	 Then remove FreiChatX tables frei_session & frei_chat if necessary
+         The best/recommended way is using the module for installation                         -->
+
+<?php
+
+if(isset($_SESSION["guid"])==true) {$ses=$_SESSION["guid"]; } else {$ses=0;}
+if(!function_exists("freichatx_get_hash")){
+function freichatx_get_hash($ses){
+
+       if(is_file("/var/www/nexu/mod/freichat/hardcode.php")){
+
+               require "/var/www/nexu/mod/freichat/hardcode.php";
+
+               $temp_id =  $ses . $uid;
+
+               return md5($temp_id);
+
+       }
+       else
+       {
+               echo "<script>alert('module freichatx says: hardcode.php file not
+found!');</script>";
+       }
+
+       return 0;
+}
+}
+?><script type="text/javascript" language="javascipt"src="http://10.24.4.125/nexu/mod/freichat/client/main.php?id=<?php echo $ses;?>&xhash=<?php echo freichatx_get_hash($ses); ?>"></script>
+	<link rel="stylesheet" href="http://10.24.4.125/nexu/mod/freichat/client/jquery/freichat_themes/freichatcss.php" type="text/css">
+<!--===========================FreiChatX=======END=========================-->
+
+
+
 <?php
 
 /**
@@ -73,6 +108,9 @@ $release = get_version(true);
 // ]]>
 </script>
 
+
+            
+
 <?php
 echo $feedref;
 
@@ -81,3 +119,5 @@ if ($metatags) {
 	elgg_deprecated_notice("The metatags view has been deprecated. Extend page/elements/head instead", 1.8);
 	echo $metatags;
 }
+
+

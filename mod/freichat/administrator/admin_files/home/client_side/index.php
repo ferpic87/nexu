@@ -163,6 +163,22 @@ if (isset($_REQUEST['purge'])) {
                     ?>
 
 
+
+                    <p>Allow guests to change their name[ Changed names will get a prefix "guest"]</p>
+                    <select name="allow_guest_name_change">
+                        <option value="yes"<?php $param->default_param("allow_guest_name_change", "yes"); ?>>yes</option>
+                        <option value="no"<?php $param->default_param("allow_guest_name_change", "no"); ?>>no</option>
+                    </select>
+                    <br/><br/>
+
+                    <p>Show chat time for messages in the chatwindow</p>
+                    <select name="chat_time_shown_always">
+                        <option value="yes"<?php $param->default_param("chat_time_shown_always", "yes"); ?>>always</option>
+                        <option value="no"<?php $param->default_param("chat_time_shown_always", "no"); ?>>only on hover for that message</option>
+                    </select>
+                    <br/><br/>
+
+                    
                     <p>Show Avatar</p>
                     <select name="show_avatar">
                         <option value="block"<?php $param->default_param("show_avatar", "block"); ?>>Yes</option>

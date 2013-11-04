@@ -90,7 +90,8 @@ if (is_array($items) && count($items) > 0) {
 
 $html .= $after;
 
-$html = "<ul id=\"$list_id\" class=\"$list_class\" data-options=\"$data_options\">$html</ul>";
+$html = "<ul id=\"sortable\" class=\"$list_class\" data-options=\"$data_options\">$html</ul>";
+//$html = "<ul id=\"$list_id\" class=\"$list_class\" data-options=\"$data_options\">$html</ul>";
 
 if ($position == 'before' || $position == 'both' && !$ajaxify) {
     $html = $nav . $html;

@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `frei_config` (
 INSERT INTO `frei_rooms` (`id`, `room_author`, `room_name`, `room_type`, `room_password`, `room_created`, `room_last_active`, `room_order`) VALUES
         (1, 'admin', 'Fun Talk', 0, '', 1373557250, 1373557250, 1),
         (2, 'admin', 'Crazy chat', 0, '', 1373557260, 1373557260, 5),
-        (3, 'admin', 'Think out lout', 0, '', 1373557872, 1373557872, 2),
+        (3, 'admin', 'Think out loud', 0, '', 1373557872, 1373557872, 2),
         (4, 'admin', 'Talk to me ', 0, '', 1373558017, 1373558017, 3),
         (5, 'admin', 'Talk innovative', 0, '', 1373558039, 1373799404, 4);
 
@@ -185,4 +185,6 @@ INSERT IGNORE INTO `frei_config` (`id`, `key`, `cat`, `subcat`, `val`) VALUES
         (61, 'ACL', 'video', 'guest', 'allow'),
         (62, 'ACL', 'chatroom_crt', 'user', 'allow'),
         (63, 'ACL', 'chatroom_crt', 'guest', 'noallow'),
-        (64, 'plugins', 'chatroom', 'chatroom_expiry', '3600');
+        (64, 'plugins', 'chatroom', 'chatroom_expiry', '3600'),
+        (65, 'chat_time_shown_always', 'NULL', 'NULL', 'no'),
+        (66, 'allow_guest_name_change', 'NULL', 'NULL', 'yes');

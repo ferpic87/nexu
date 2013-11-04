@@ -19,7 +19,12 @@ class upload extends FreiChat{
         parent::__construct();
         $this->init_vars();
         $this->get_js_config();
-        $this->path = RDIR . '/client/themes/' . $this->freichat_theme . '/';
+        
+        if(isset($_SERVER['HTTP_X_TYPE']) && $_SERVER['HTTP_X_TYPE'] == 'smileys') {
+            $this->path = RDIR . '/client/themes/smileys/';
+        }else {
+            $this->path = RDIR . '/client/themes/' . $this->freichat_theme . '/';            
+        }
         $this->max_file_size = 10 * 1024 * 1024 * 1024;
     }
 

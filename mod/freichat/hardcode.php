@@ -5,7 +5,7 @@ $db_user='root'; //DB username
 $db_pass='Oralsex'; //DB password    
 $driver='Elgg'; //Integration driver
 $db_prefix='elgg_'; //prefix used for tables in database
-$uid='526130e91a76f'; //Any random unique number
+$uid='526f7a6677ac9'; //Any random unique number
 
 $PATH = 'mod/freichat/'; // Use this only if you have placed the freichat folder somewhere else
 $installed=true; //make it false if you want to reinstall freichat

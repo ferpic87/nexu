@@ -185,7 +185,7 @@ background-repeat:no-repeat;
 }
 
 .frei_chatroom .frei_chatroom-content {}
-.frei_chatroom .frei_chatroom-content ul {list-style: square; margin: 0 0 0 25px; line-height: 1.frei_3em;}
+.frei_chatroom .frei_chatroom-content ul {list-style: square; margin: 0 0 0 25px; line-height: 1.3em;}
 .frei_chatroom .frei_chatroom-content ul li {font-size: 10px;}
 .frei_chatroom .frei_chatroom-content ul li a {color: #fff; font-size: 13px;}
 .frei_chatroom .frei_chatroom-content ul li a:hover {color: #000;}

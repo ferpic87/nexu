@@ -625,7 +625,7 @@ $(document).ready(function() {
 });
 
 function checkAllLinks() {
-	 $('a:not([href*="nexu"])').attr("target","_blank");
+	 $('a:not([href*="nexu"]):not([href^=#])').attr("target","_blank");
 }
 
 function checkLength(obj) {
@@ -796,4 +796,61 @@ function resetErrorMessage(jQElem) {
 	$(id).remove();
 }
 
+// EXPERIMENT FUNCTIONS BEGIN
 
+$(document).ready(function() {
+	if(document.URL.indexOf("experiment")!=-1) {
+		$(function() {
+			$( "#sortable" ).sortable();
+			$( "#sortable" ).disableSelection();
+		});
+		saveInitialPermutation();
+	}
+});
+
+var initialPermutation;
+var finalPermutation;
+
+function saveInitialPermutation() {
+	initialPermutation = {};
+	fillPermutation(initialPermutation);
+}
+
+function getFinalPermutation() {
+	finalPermutation = {};
+	fillPermutation(finalPermutation);
+}
+
+function fillPermutation(target) {
+	var i=0;
+	$( ".elgg-item" ).each(function( index ) {
+		idElement = $( this )[0].id;
+		if(idElement.indexOf("item-river")!= -1) {
+		  target[idElement] = i++;
+		}
+    });
+}
+
+function sendInfo(userId) {
+	getFinalPermutation();
+	//console.log(JSON.stringify(initialPermutation.values()));
+	//console.log(JSON.stringify(finalPermutation.values()));
+	var listInitial =  new Array();
+	var listFinal =  new Array();
+	var length = initialPermutation.length;
+	for (var key in initialPermutation) {
+		listInitial.push(initialPermutation[key]);
+		listFinal.push(finalPermutation[key]);
+	}
+	permutations = new Array();
+	permutations[0] = listInitial;
+	permutations[1] = listFinal;
+	jsonPermutation = JSON.stringify(permutations)
+	
+	$.post( "services/api/rest/xml/?method=experiment", { id: userId, permutations: jsonPermutation } );
+
+	//console.log(JSON.stringify(listFinal));	
+	alert("Grazie per il tuo contributo!");
+}
+
+// EXPERIMENT FUNCTIONS END

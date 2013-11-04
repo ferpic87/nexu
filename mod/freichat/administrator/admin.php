@@ -108,13 +108,10 @@ function get_file_names($path, $type, $replace = false) {
 
                     <!-- user dropdown starts -->
                     <div class="btn-group pull-right" >
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-user"></i><span class="hidden-phone"> admin</span>
-                            <span class="caret"></span>
+                        <a class="btn" href="admin.php?logout=true">
+                            <i class="icon-off"></i>
+                            Logout
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="admin.php?logout=true">Logout</a></li>
-                        </ul>
                     </div>
                     <!-- user dropdown ends -->
 
@@ -236,7 +233,7 @@ function get_file_names($path, $type, $replace = false) {
                     <div style="text-align:left;width:150px;margin: 0px auto">
 
 
-                        Powered By <a target="_blank" style="color:blue" href="http://www.poste.it/azienda/research_development/">Modern</a>
+                        Powered By <a target="_blank" style="color:blue" href="http://codologic.com">Codologic</a>
 
                     </div>
 

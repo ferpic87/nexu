@@ -282,7 +282,7 @@ $submit_url = $_SERVER['SERVER_NAME'];
                     </div>
 
                     <div class="modal-body">
-                        <?php if ($_SESSION['cms'] == 'se4') { ?>
+                        <?php if ($_SESSION['cms'] == 'se4' || $_SESSION['cms'] == 'etano') { ?>
                             <div class="">
                                 <?php echo $info['cookie_where']; ?>
 
