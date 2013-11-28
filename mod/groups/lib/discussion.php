@@ -84,14 +84,14 @@ function discussion_handle_list_page($guid) {
  */
 function discussion_handle_edit_page($type, $guid) {
 	gatekeeper();
-
+	
 	if ($type == 'add') {
 		$group = get_entity($guid);
 		if (!$group) {
 			register_error(elgg_echo('group:notfound'));
 			forward();
 		}
-
+	
 		// make sure user has permissions to add a topic to container
 		if (!$group->canWriteToContainer(0, 'object', 'groupforumtopic')) {
 			register_error(elgg_echo('groups:permissions:error'));
@@ -103,7 +103,7 @@ function discussion_handle_edit_page($type, $guid) {
 		elgg_push_breadcrumb($group->name, "discussion/owner/$group->guid");
 		elgg_push_breadcrumb($title);
 
-		$body_vars = discussion_prepare_form_vars();
+		$body_vars = discussion_prepare_form_vars(null,$guid);
 		$content = elgg_view_form('discussion/save', array(), $body_vars);
 	} else {
 		$topic = get_entity($guid);
@@ -123,7 +123,7 @@ function discussion_handle_edit_page($type, $guid) {
 		elgg_push_breadcrumb($topic->title, $topic->getURL());
 		elgg_push_breadcrumb($title);
 
-		$body_vars = discussion_prepare_form_vars($topic);
+		$body_vars = discussion_prepare_form_vars($topic, $guid);
 		$content = elgg_view_form('discussion/save', array(), $body_vars);
 	}
 
@@ -202,13 +202,17 @@ function discussion_handle_view_page($guid) {
  * @param ElggObject $topic Topic object if editing
  * @return array
  */
-function discussion_prepare_form_vars($topic = NULL) {
-	// input names => defaults
+function discussion_prepare_form_vars($topic = NULL, $group_id) {
+	// input names => defaults	
+
+	$group = get_entity($group_id);
+	$access_id = $group->group_acl;
+	
 	$values = array(
 		'title' => '',
 		'description' => '',
 		'status' => '',
-		'access_id' => ACCESS_DEFAULT,
+		'access_id' => $access_id,
 		'tags' => '',
 		'container_guid' => elgg_get_page_owner_guid(),
 		'guid' => null,
