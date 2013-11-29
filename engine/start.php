@@ -107,6 +107,12 @@ include_once($lib_dir."activities_window.php");
 // Load the get_stats function                                                                     
 include_once($lib_dir."stats.php");
 
+// Load the get_stats function                                                                     
+include_once($lib_dir."queue.php");
+
+// Load the Solr PHP Client                                                                     
+include_once($lib_dir.'SolrPhpClient/Apache/Solr/Service.php' );
+
 // Connect to database, load language files, load configuration, init session
 // Plugins can't use this event because they haven't been loaded yet.
 elgg_trigger_event('boot', 'system');
@@ -133,7 +139,7 @@ $CONFIG->boot_complete = true;
 // System loaded and ready
 elgg_trigger_event('ready', 'system');
 
-expose_function("members", "get_members", array('getAll' => array ('type' => 'string','required' => false, 'default'=> false)), 'A method that returns all the info about the members', 'GET', false, false);
+expose_function("members", "get_members", array('getAll' => array ('type' => 'string','required' => false, 'default'=> false),'source' => array ('type' => 'string','required' => false, 'default'=> null)), 'A method that returns all the info about the members', 'GET', false, false);
 
 expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type' => 'string'),
                        'what_to_retrieve' => array ('type' => 'string'),
@@ -143,7 +149,9 @@ expose_function("get_window", "get_window", array( 'guid' => array ('type' => 's
 						'A method that returns the activities window of the user', 'GET', false, false);
 
 expose_function("get_authorship", "get_authorship", array( 'guid' => array ('type' => 'string', 'required' => true), 
-						'timestamp' => array('type' => 'string', 'required' => false, 'default' => '0')
+						'timestamp' => array('type' => 'string', 'required' => false, 'default' => '0'),
+						'source' => array('type' => 'string', 'required' => false, 'default' => null),
+						'get_comment' => array('type' => 'string', 'required' => false, 'default' => false)
 					 ), 'A method that returns the authorship of the user', 'GET', false, false);
 
 						
@@ -158,5 +166,9 @@ expose_function("experiment", "save_permutations_data", array( 	'id' => array ('
 																'permutations' => array ('type' => 'string'),
 											), 
 						'A method that saves the permutations for the experiment', 'POST', false, false);
+						
 expose_function("permutations", "get_permutations_data", array(), 
 						'A method that returns the permutations for the experiment', 'GET', false, false);						
+						
+expose_function("access_list", "get_alist", array( 'guid' => array ('type' => 'string')), 
+						'A method that returns the access list for the given user', 'GET', false, false);	
