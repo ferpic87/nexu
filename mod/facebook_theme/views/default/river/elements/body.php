@@ -77,7 +77,7 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 	}
 }
 $rank = $item->rank;
-$debug = true;
+$debug = false;
 if($debug) {
 	$stampaRank = "[rank=".$rank."]";
 }

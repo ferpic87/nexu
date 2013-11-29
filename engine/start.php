@@ -102,7 +102,7 @@ include_once($lib_dir."members.php");
 include_once($lib_dir."data_expose.php");
 
 // Load the get_window function                                                                     
-include_once($lib_dir."activities_window.php");
+//include_once($lib_dir."activities_window.php");
 
 // Load the get_stats function                                                                     
 include_once($lib_dir."stats.php");
@@ -145,8 +145,10 @@ expose_function("retrieve_data", "retrieve_data", array( 'guid' => array ('type'
                        'what_to_retrieve' => array ('type' => 'string'),
                      ), 'A method that returns the data of interest for the user guid', 'GET', false, false);
 
-expose_function("get_window", "get_window", array( 'guid' => array ('type' => 'string')), 
+/*expose_function("get_window", "get_window", array( 'guid' => array ('type' => 'string')), 
+
 						'A method that returns the activities window of the user', 'GET', false, false);
+*/
 
 expose_function("get_authorship", "get_authorship", array( 'guid' => array ('type' => 'string', 'required' => true), 
 						'timestamp' => array('type' => 'string', 'required' => false, 'default' => '0'),

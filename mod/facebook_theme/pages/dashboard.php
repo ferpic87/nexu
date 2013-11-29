@@ -26,12 +26,12 @@ $db_prefix = elgg_get_config('dbprefix');
 
 $friendsSummary = "<a href='".elgg_get_site_url()."user_connections'>I tuoi amici stanno seguendo persone che potrebbero interessarti</a>";
 
-if(windowIsChanged($user->guid)) {
+/*if(windowIsChanged($user->guid)) {
 	error_log("finestra cambiata ".$user->guid);
 	rankingUpdate($user->guid);
 } else {
 	error_log("finestra invariata ".$user->guid);
-}
+}*/
 
 $activity = elgg_list_river(array(
 	'joins' => array("JOIN {$db_prefix}entities object ON object.guid = rv.object_guid"),
