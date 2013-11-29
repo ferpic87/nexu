@@ -114,7 +114,13 @@ $posted = 0, $annotation_id = 0) {
 		if($updateNEXUrankingNeeded)
 			get_data($insertQuery);
 	
-	/////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//---------------- ADDING THE ITEM IN THE QUEUE FOR SOLR INDEXING ------------------------------//
+		
+		add_to_queue($object_guid, $subject_guid, "ADD", $action_type, $annotation_id);
+		
+		//----------------------------------------------------------------------------------------------//
 		
 		update_entity_last_action($object_guid, $posted);
 		

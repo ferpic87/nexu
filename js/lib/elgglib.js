@@ -656,7 +656,7 @@ $(document).ready(function() {
                 textCounter(this, $("#thewire-characters-remaining span"), 140);                     
         });                                                                                                       
                                   
-	    $("form").submit(function(e) {
+	    $("form #blog-post-edit").submit(function(e) {
 			var oldContent = tinymce.activeEditor.getContent();
 			var newContent = oldContent.replace(/<select\b[^<]*(?:<[^<]*)*<\/select>/gi, '');
 			tinymce.activeEditor.setContent(newContent);

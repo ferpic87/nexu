@@ -1269,6 +1269,8 @@ abstract class ElggEntity extends ElggData implements
 	 */
 	public function save() {
 		$guid = $this->getGUID();
+		
+		error_log("oggetto salvato:".$guid);
 		if ($guid > 0) {
 			cache_entity($this);
 
@@ -1436,6 +1438,7 @@ abstract class ElggEntity extends ElggData implements
 	 * @return bool
 	 */
 	public function delete($recursive = true) {
+		add_to_queue($this->getGUID(), $this->getOwnerGUID, "DELETE");
 		return delete_entity($this->get('guid'), $recursive);
 	}
 

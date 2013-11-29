@@ -160,6 +160,8 @@ if (!$error) {
 				'object_guid' => $blog->guid,
 				'action_type' => 'create',
 			));
+		} else {
+			add_to_queue($guid, elgg_get_logged_in_user_guid(), "UPDATE");
 		}
 
 		if ($blog->status == 'published' || $save == false) {

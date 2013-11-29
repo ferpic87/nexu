@@ -64,6 +64,7 @@ $language = array (
   'admin_option' => 'Vuoi nominare questo utente amministratore?',
   'LOGGED_IN' => 'Community',
   'access:limited:label' => 'Limitato',
+  'search:results' => 'risultati per %s',
   'access:help' => 'Il livello di accesso',
   'dashboard' => 'Bacheca',
   'dashboard:nowidgets' => 'La bacheca è la tua porta d\'ingresso nel sito. Clicca su \'Modifica pagina\' per aggiungere i widget che ti permetteranno di tenere traccia di tutte le interazioni dentro il sistema.',
@@ -529,6 +530,7 @@ Per rimuovere un Widget, riportalo indietro nella <b>Galleria-Widget</b>.',
   'admin:plugins:label:version' => 'Versione',
   'search' => 'Cerca',
   'searchtitle' => 'Cerca: %s',
+  'searchnumber' => '%s di %s',
   'users:searchtitle' => 'Ricerca per utenti: %s',
   'groups:searchtitle' => 'Ricerca per gruppi: %s',
   'notfound' => 'Nessun risultato trovato.',
@@ -757,6 +759,12 @@ Se sei stato/a tu allora clicca sul link in basso, altrimenti per favore ignora 
   'user:default_access:success' => 'Il tuo nuovo livello di accesso di default è stato salvato.',
   'user:default_access:failure' => 'Non è stato possibile salvare il tuo nuovo livello di accesso di default.',
   'xmlrpc:noinputdata' => 'Dati da inserire mancanti',
+  'knoboos:file_type' => 'Tipo di file',
+  'knoboos:author_s' => 'Autore',
+  'knoboos:tags' => 'Tag',
+  'knoboos:categoria' => 'Categoria',
+  'knoboos:last_modified' => 'Data',
+  'knoboos:topic' => 'Argomenti',
   'tinymce:word_count' => 'Parole presenti: ',
   'comments:count' => '%s commenti',
   'riveraction:annotation:generic_comment' => '%s ha commentato su %s',
@@ -769,7 +777,7 @@ Se sei stato/a tu allora clicca sul link in basso, altrimenti per favore ignora 
   'generic_comment:notdeleted' => 'Spiacenti, non è stato possibile cancellare questo commento.',
   'generic_comment:failure' => 'Errore non previsto mentre inserivi il tuo commento. Per favore riprova, grazie.',
   'generic_comment:email:subject' => 'Hai un nuovo commento!',
-  'generic_comment:email:body' => 'Hai un nuovo commento su  "%s" da %s :
+  'generic_comment:email:body' => 'Hai un nuovo commento su  "%s" da %s 
 
 
 %s

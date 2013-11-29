@@ -4,10 +4,11 @@ $english = array(
 	'search:enter_term' => 'Enter a search term:',
 	'search:no_results' => 'No results.',
 	'search:matched' => 'Matched: ',
-	'search:results' => 'Results for %s',
+	'search:results' => 'results for %s',
 	'search:no_query' => 'Please enter a query to search.',
 	'search:search_error' => 'Error',
 
+	'searchnumber' => '%s of %s',
 	'search:more' => '+%s more %s',
 
 	'search_types:tags' => 'Tags',

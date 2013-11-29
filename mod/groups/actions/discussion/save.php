@@ -69,6 +69,7 @@ if ($new_topic) {
 	system_message(elgg_echo('discussion:topic:created'));
 	add_to_river('river/object/groupforumtopic/create', 'create', elgg_get_logged_in_user_guid(), $topic->guid);
 } else {
+	add_to_queue($guid, elgg_get_logged_in_user_guid(), "UPDATE");
 	system_message(elgg_echo('discussion:topic:updated'));
 }
 

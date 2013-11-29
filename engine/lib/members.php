@@ -2,9 +2,9 @@
 
 include_once("entities.php");
 
-function get_members($getAll = false)  {
+function get_members($getAll = false, $source = null)  {
 	$response = array();
-	if($getAll == false) {
+	if($getAll == false && $source == null) {
 		//$options = array('types' => 'user', 'limit' => '200', 'subtypes' => ELGG_ENTITIES_ANY_VALUE);
 			//$content = elgg_get_entities($options);
 		$loggedIn = get_loggedin_user();
@@ -22,14 +22,37 @@ function get_members($getAll = false)  {
 		$response = member_sort($response);
 	} else {
 		$usersInfo = elgg_get_entities(array('types'=>'user', 'limit' => false));
-		foreach($usersInfo as $user) {
-			$var["id"] = $user->guid;
-			$var["name"] = $user->name;
-			if($var["name"]!="admin")
+		if($source == null) {
+			foreach($usersInfo as $user) {
+				$var["id"] = $user->guid;
+				$var["name"] = $user->name;
+				if($var["name"]!="admin")
+					array_push($response, $var);
+			}
+		} else {   // members for Solr indexing
+			foreach($usersInfo as $user) {
+				$var["id"] = $user->guid;
+				$var["name"] = $user->name;
+				$var["timestamp"] = $user->time_created;
+				$url = $user->getURL();
+				$parsedUrl = parse_url($url);
+				$var["link"] = $parsedUrl["path"];
+				$skills = extractMetadata($user->guid,"skills");
+				$interests = extractMetadata($user->guid,"interests");
+				$var["tags"] = array_merge($skills,$interests);
+				$var["access_id"] = 2;
+				$var["content_type"] = "user";
 				array_push($response, $var);
-		}
+			}
+		}	
 	}
-	//var_dump($content);
+	return $response;
+}
+
+function get_members_knoboos()  {
+	$response = array();
+	$usersInfo = elgg_get_entities(array('types'=>'user', 'limit' => false));
+	
 	return $response;
 }
 

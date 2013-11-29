@@ -27,7 +27,8 @@ $display_query = htmlspecialchars($display_query, ENT_QUOTES, 'UTF-8', false);
 
 <form class="elgg-search" action="<?php echo elgg_get_site_url(); ?>search" method="get">
 	<fieldset>
-		<input type="text" size="21" name="q" placeholder="<?php echo elgg_echo('search'); ?>" class="search-input" value="<?php echo $value; ?>"/>
-		<input type="submit" value="<?php echo elgg_echo('search:go'); ?>" class="search-submit-button" />
+		<input type="text" id="query" size="21" name="q" placeholder="<?php echo elgg_echo('search'); ?>" class="search-input" value="<?php echo $value; ?>"/>
+		<input title="Cerca su NEXU" type="submit" value="<?php echo elgg_echo('search:go'); ?>" class="search-submit-button" />
+		<img title="Cerca su KnoBoos" src="/nexu/_graphics/knobooslogo.png" style="position: absolute;	right: 0px;	width: 20px;cursor: pointer;">
 	</fieldset>
 </form>

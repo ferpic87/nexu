@@ -5,8 +5,6 @@ include_once("entities.php");
 function get_stats($type, $timeStart,$timeEnd, $perTool = 0, $interactionType, $tool = 0)  {
 	$response = array();
 	
-	error_log("type ".$type." timeStart ".$timeStart." timeEnd ".$timeEnd."  perTool ".$perTool." interactionType ".$interactionType." tool ".$tool);
-	
 //	$month = $temp[0];
 //	$year = $temp[1];
 	

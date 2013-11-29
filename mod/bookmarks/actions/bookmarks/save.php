@@ -81,6 +81,8 @@ if ($bookmark->save()) {
 	//add to river only if new
 	if ($new) {
 		add_to_river('river/object/bookmarks/create','create', elgg_get_logged_in_user_guid(), $bookmark->getGUID());
+	} else {
+		add_to_queue($guid, elgg_get_logged_in_user_guid(), "UPDATE");
 	}
 
 	forward($bookmark->getURL());

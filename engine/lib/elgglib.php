@@ -1789,6 +1789,27 @@ function elgg_js_page_handler($page) {
 	return elgg_cacheable_view_page_handler($page, 'js');
 }
 
+function getYear($date) {
+	return substr($date, 0, 4);
+}
+
+function getMonth($date) {
+	$months = array("01" => "Gennaio","02" => "Febbraio","03" => "Marzo","04" => "Aprile","05" => "Maggio","06" => "Giugno","07" => "Luglio","08" => "Agosto","09" => "Settembre","10" => "Ottobre","11" => "Novembre","12" => "Dicembre");
+	$index = substr($date, 5, 2);
+	return $months[$index];
+}
+
+function getFormForSearch($form_prefix, $i, $input, $topic, $topic_name, $query) {
+	$form_string = "<form method='POST' id='".$form_prefix.$i."' action='/nexu/search?q=".$query."' style='display: none'>";
+	if($topic != "") {
+		$form_string .= "<input type='text' name='topic' value='(".$topic.")'>";
+		$form_string .= "<input type='text' name='topic_name' value='".$topic_name."'>";
+	}
+	$form_string .= $input;
+	$form_string .= "</form>";
+	return $form_string;
+}
+
 /**
  * Serve individual views for Ajax.
  *
@@ -2123,6 +2144,11 @@ function _elgg_walled_garden_remove_public_access($hook, $type, $accesses) {
 		unset($accesses[ACCESS_PUBLIC]);
 	}
 	return $accesses;
+}
+
+function getFormat($filename) {
+	$pos = strrpos($filename, ".");
+	return strtolower (substr($filename, $pos + 1));
 }
 
 /**

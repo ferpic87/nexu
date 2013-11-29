@@ -7,16 +7,33 @@
 
 // Search supports RSS
 global $autofeed;
+global $CONFIG;
 $autofeed = true;
+
+$i = 0;
 
 // $search_type == all || entities || trigger plugin hook
 $search_type = get_input('search_type', 'all');
+
+$offset = get_input('offset');
+$topic_name = get_input('topic_name');
+$topic = get_input('topic');
+
+$guid = get_loggedin_userid();
+
+$access_ids = get_access_array($guid);
 
 // @todo there is a bug in get_input that makes variables have slashes sometimes.
 // @todo is there an example query to demonstrate ^
 // XSS protection is more important that searching for HTML.
 $query = stripslashes(get_input('q', get_input('tag', '')));
+$fq = stripslashes(get_input('fq', get_input('tag', '')));
+//(file_type:Word%20AND%20author_s:Administrator)
 
+if($fq != "") {
+	$fqs = split(" AND ", substr($fq,1,-1));
+}
+	
 // @todo - create function for sanitization of strings for display in 1.8
 // encode <,>,&, quotes and characters above 127
 if (function_exists('mb_convert_encoding')) {
@@ -39,34 +56,107 @@ if (!$query) {
 	return;
 }
 
+/***************** inizio codice aggiunta documenti da KnoBoos ******************/
+ // 
+  // 
+  // Try to connect to the named server, port, and url
+  // 
+  $solr = new Apache_Solr_Service( '10.24.5.195', '80', '/solr' );
+  $knoboosResult = "";
+  $continue = true;
+ 
+  if ( ! $solr->ping() ) {
+    $knoboosResult.= 'Cannot connect to Solr service';
+    $continue = false;
+  } 
+  $limit = 10;
+	 
+  if($continue) { 
+	  //
+	  // 
+	  // Run some queries. 
+	  //
+	  
+	  if(!isset($offset))
+		$offset = 0;
+	  
+	   
+	  $queries = array(
+		$query ,
+	  );
+	  $acc_ids_string = "(";
+	  foreach($access_ids as $access_id) {
+		  $acc_ids_string .= " access_level:'".$access_id."' OR";
+	  }
+	  $acc_ids_string = substr($acc_ids_string, 0, -3).")";
+	  
+	  if($fq != "") {
+		if($topic_name=="")
+			$fqAccessId = $acc_ids_string. " AND ".substr($fq, 1, -1);				
+		else
+			$fqAccessId = $acc_ids_string. " AND ".$fq;				
+	  } else
+		$fqAccessId = $acc_ids_string;
+
+	  if($topic != "")		
+		$fqAccessId .= " AND ".$topic;	
+		
+	  $params = array("fq" => $fqAccessId);
+	
+	  foreach ( $queries as $query ) {
+		$response = $solr->search( $query, $offset, $limit, $params );
+		$numFound = $response->response->numFound;
+		
+		if ( $response->getHttpStatus() == 200 ) { 
+		  // print_r( $response->getRawResponse() );
+		   
+		  if ( $numFound > 0 ) {
+			//echo "$query <br />";
+			$knoboosResult .= "<h1 class=\"search-heading-category\"></h1><ul class=\"elgg-list search-list\">";
+			
+			foreach ( $response->response->docs as $doc ) { 
+				$temp = $doc->id;
+				if($doc->categoria == "file" || $doc->categoria == "user" || $doc->categoria == "blog" || $doc->categoria == "bookmark" || $doc->categoria == "status" || $doc->categoria == "discussion" || $doc->categoria == "comment") {
+					if(isset($doc->author_id)) {
+						$urlImage = get_entity($doc->author_id)->getIcon('small');
+					} else {
+						$urlImage = get_entity($doc->id)->getIcon('small');
+					}
+					$url = $doc->file_path;
+				} else {
+					$urlImage = $CONFIG->url.'/_graphics/filetypes/'.getFormat($doc->name_file).'.png';
+					$url = 'file://'.$doc->file_path;
+				}
+				
+				if($doc->categoria == "status")
+					$doc->name_file = "Status update";
+				
+				$knoboosResult .= '<li id="elgg-object-'.$doc->id.'" class="elgg-item">
+				<div class="elgg-image-block clearfix">
+					<div class="elgg-image"><img style="width:40px;" src="'.$urlImage.'"></div>
+					<div class="elgg-body">
+						<p class="mbn"><a href="'.$url.'"><strong class="">'.$doc->name_file.'</strong></a></p>'.str_replace("&#65533;","",$response->highlighting->$temp->content[0]).'</p>
+					</div>
+				</div>
+				</li>';
+			}
+			
+			
+			/*if($numFound > 5)
+				$knoboosResult .= '<li class="elgg-item"><a href="#" onclick="sendRequest();">+'.($numFound - 5).' more documents</a></li>';*/
+			$knoboosResult .= "</ul>";
+		  }
+		} else {
+		  $knoboosResult.= 'Solr service not responding';
+		}
+	  }
+	  
+	  
+	  
+/***************** fine codice aggiunta documenti da KnoBoos ******************/
+
 // get limit and offset.  override if on search dashboard, where only 2
 // of each most recent entity types will be shown.
-$limit = ($search_type == 'all') ? 2 : get_input('limit', 10);
-$offset = ($search_type == 'all') ? 0 : get_input('offset', 0);
-
-$entity_type = get_input('entity_type', ELGG_ENTITIES_ANY_VALUE);
-$entity_subtype = get_input('entity_subtype', ELGG_ENTITIES_ANY_VALUE);
-$owner_guid = get_input('owner_guid', ELGG_ENTITIES_ANY_VALUE);
-$container_guid = get_input('container_guid', ELGG_ENTITIES_ANY_VALUE);
-$friends = get_input('friends', ELGG_ENTITIES_ANY_VALUE);
-$sort = get_input('sort');
-switch ($sort) {
-	case 'relevance':
-	case 'created':
-	case 'updated':
-	case 'action_on':
-	case 'alpha':
-		break;
-
-	default:
-		$sort = 'relevance';
-		break;
-}
-
-$order = get_input('sort', 'desc');
-if ($order != 'asc' && $order != 'desc') {
-	$order = 'desc';
-}
 
 // set up search params
 $params = array(
@@ -78,201 +168,175 @@ $params = array(
 	'search_type' => $search_type,
 	'type' => $entity_type,
 	'subtype' => $entity_subtype,
-//	'tag_type' => $tag_type,
 	'owner_guid' => $owner_guid,
 	'container_guid' => $container_guid,
-//	'friends' => $friends
 	'pagination' => ($search_type == 'all') ? FALSE : TRUE
 );
 
-$types = get_registered_entity_types();
-$custom_types = elgg_trigger_plugin_hook('search_types', 'get_types', $params, array());
+	$fqParam = "";
 
-// add sidebar items for all and native types
-// @todo should these maintain any existing type / subtype filters or reset?
-$data = htmlspecialchars(http_build_query(array(
-	'q' => $query,
-	'entity_subtype' => $entity_subtype,
-	'entity_type' => $entity_type,
-	'owner_guid' => $owner_guid,
-	'search_type' => 'all',
-	//'friends' => $friends
-)));
-$url = elgg_get_site_url() . "search?$data";
-$menu_item = new ElggMenuItem('all', elgg_echo('all'), $url);
-elgg_register_menu_item('page', $menu_item);
-
-foreach ($types as $type => $subtypes) {
-	// @todo when using index table, can include result counts on each of these.
-	if (is_array($subtypes) && count($subtypes)) {
-		foreach ($subtypes as $subtype) {
-			if($subtype != 'notification') {
-				$label = "item:$type:$subtype";
-
-				$data = htmlspecialchars(http_build_query(array(
-					'q' => $query,
-					'entity_subtype' => $subtype,
-					'entity_type' => $type,
-					'owner_guid' => $owner_guid,
-					'search_type' => 'entities',
-					'friends' => $friends
-				)));
-
-				$url = elgg_get_site_url()."search?$data";
-				$menu_item = new ElggMenuItem($label, elgg_echo($label), $url);
-				elgg_register_menu_item('page', $menu_item);
-			}
+	if(count($fqs)>0)
+		foreach ($fqs as $corrente) {
+			if($corrente!="")// && strpos($corrente,'access_level') === false)
+				$fqParam.= $corrente." AND ";
 		}
-	} else {
-		$label = "item:$type";
 
-		$data = htmlspecialchars(http_build_query(array(
-			'q' => $query,
-			'entity_type' => $type,
-			'owner_guid' => $owner_guid,
-			'search_type' => 'entities',
-			'friends' => $friends
-		)));
+	foreach ( $response->facet_counts->facet_fields as $name => $facets ) {
+		if($name != "access_level") {
+			$menu_item = new ElggMenuItem($name, elgg_echo("knoboos:".$name), "#");
+			$menu_item->style = "font-weight:bold";
+			$menu_items_facet = array();
+			foreach ($facets as $key => $value) {
+				if($key != "_empty_" && strpos($fq,$key)===FALSE) {
+					$tempfqParam = $fqParam.$name.":\"".$key."\"";
+					$facet_item = new ElggMenuItem($key, $key." (".$value.")", "#");
+					$facet_item->onclick = "$(\"#facet-".$i."\").submit();";
+					$menu_items_facet[] = $facet_item;
+					
+					$form_prefix_id = "facet-";
+					$input = "<input type='text' name='fq' value='(".$tempfqParam.")'>";
+					$form_string = getFormForSearch($form_prefix_id, $i, $input, $topic, $topic_name, $query);
+					
+					$form_item = new ElggMenuItem($key."-form", $form_string, false);
+					$menu_items_facet[] = $form_item;
+					$i++;
+				}
+			}
+			$menu_item->setChildren($menu_items_facet);
+			elgg_register_menu_item('page', $menu_item);
+		}
+	}
 
-		$url = elgg_get_site_url() . "search?$data";
 
-		$menu_item = new ElggMenuItem($label, elgg_echo($label), $url);
+
+	foreach ( $response->facet_counts->facet_ranges as $name => $last_modified ) {
+		$menu_item = new ElggMenuItem($name, elgg_echo("knoboos:".$name), "#");
+		$menu_item->style = "font-weight:bold";
+		$gap = $last_modified->gap;
+		$start = $last_modified->start;
+		$before = $last_modified->before;
+		$year_items = array();
+		if(count((array)$last_modified->counts) > 0 && $before > 0) {
+			$tempfqParam = $fqParam.'last_modified:[* TO '.$start.'}';
+			$before_item = new ElggMenuItem($start, "Prima del ".getYear($start)." (".$before.")", "#");
+			$before_item->onclick = "$(\"#facet-".$i."\").submit();";
+			$year_items[] = $before_item;
+			
+			$form_prefix_id = "facet-";
+			$input = "<input type='text' name='fq' value='(".$tempfqParam.")'>";
+			$form_string = getFormForSearch($form_prefix_id, $i, $input, $topic, $topic_name, $query);
+					
+			$form_item = new ElggMenuItem($start."-form", $form_string, false);
+			$year_items[] = $form_item;
+			$i++;
+		}
+		$last_year = null;
+		$current_year = null;
+		foreach ($last_modified->counts as $key => $value) {
+			$current_year = getYear($key);
+			if($current_year != $last_year) {
+				$year_items[] = new ElggMenuItem($current_year, $current_year, "#");
+			}
+			
+			if($key != "_empty_" && strpos($fq,$key)===FALSE) {
+				$tempfqParam = $fqParam.$name.":[".$key." TO ".$key.$gap."}";
+				$menu_item_facet = new ElggMenuItem($key, getMonth($key)." (".$value.")", "#");
+				$menu_item_facet->onclick = "$(\"#facet-".$i."\").submit();";
+				end($year_items)->addChild($menu_item_facet);
+							
+				$form_prefix_id = "facet-";
+				$input = "<input type='text' name='fq' value='(".$tempfqParam.")'>";
+				$form_string = getFormForSearch($form_prefix_id, $i, $input, $topic, $topic_name, $query);
+					
+				$form_item = new ElggMenuItem($key."-form", $form_string, false);
+				end($year_items)->addChild($form_item);
+				$i++;
+			
+			}
+			$last_year = $current_year;
+		}
+		$menu_item->setChildren($year_items);
 		elgg_register_menu_item('page', $menu_item);
 	}
-}
 
-// add sidebar for custom searches
-foreach ($custom_types as $type) {
-	$label = "search_types:$type";
+	$menu_item_script = new ElggMenuItem("carrot", "<script>
+							$(document).ready(function() { 
+								$.post( 'request?q=".$query."', { fq: '".$fq."' }).done(function( data ) {
+									$(\".elgg-menu-item-carrot\").html( data);
+								});
+							});
+							</script><img style='margin-left:40px;' src='/nexu/_graphics/ajax_loader.gif'>", "#");
 
-	$data = htmlspecialchars(http_build_query(array(
-		'q' => $query,
-		'search_type' => $type,
-	)));
+	elgg_register_menu_item('page', $menu_item_script);
 
-	$url = elgg_get_site_url()."search?$data";
+	// start the actual search
+	$results_html = '';
 
-	$menu_item = new ElggMenuItem($label, elgg_echo($label), $url);
-	elgg_register_menu_item('page', $menu_item);
-}
-
-// start the actual search
-$results_html = '';
-
-if ($search_type == 'all' || $search_type == 'entities') {
-	// to pass the correct current search type to the views
-	$current_params = $params;
-	$current_params['search_type'] = 'entities';
-
-	// foreach through types.
-	// if a plugin returns FALSE for subtype ignore it.
-	// if a plugin returns NULL or '' for subtype, pass to generic type search function.
-	// if still NULL or '' or empty(array()) no results found. (== don't show??)
-	foreach ($types as $type => $subtypes) {
-		if ($search_type != 'all' && $entity_type != $type) {
-			continue;
-		}
-
-		if (is_array($subtypes) && count($subtypes)) {
-			foreach ($subtypes as $subtype) {
-				// no need to search if we're not interested in these results
-				// @todo when using index table, allow search to get full count.
-				if ($search_type != 'all' && $entity_subtype != $subtype) {
-					continue;
-				}
-				$current_params['subtype'] = $subtype;
-				$current_params['type'] = $type;
-
-				$results = elgg_trigger_plugin_hook('search', "$type:$subtype", $current_params, NULL);
-				if ($results === FALSE) {
-					// someone is saying not to display these types in searches.
-					continue;
-				} elseif (is_array($results) && !count($results)) {
-					// no results, but results searched in hook.
-				} elseif (!$results) {
-					// no results and not hooked.  use default type search.
-					// don't change the params here, since it's really a different subtype.
-					// Will be passed to elgg_get_entities().
-					$results = elgg_trigger_plugin_hook('search', $type, $current_params, array());
-				}
-
-				if (is_array($results['entities']) && $results['count']) {
-					if ($view = search_get_search_view($current_params, 'list')) {
-						$results_html .= elgg_view($view, array(
-							'results' => $results,
-							'params' => $current_params,
-						));
-					}
-				}
-			}
-		}
-
-		// pull in default type entities with no subtypes
-		$current_params['type'] = $type;
-		$current_params['subtype'] = ELGG_ENTITIES_NO_VALUE;
-
-		$results = elgg_trigger_plugin_hook('search', $type, $current_params, array());
-		if ($results === FALSE) {
-			// someone is saying not to display these types in searches.
-			continue;
-		}
-
-		if (is_array($results['entities']) && $results['count']) {
-			if ($view = search_get_search_view($current_params, 'list')) {
-				$results_html .= elgg_view($view, array(
-					'results' => $results,
-					'params' => $current_params,
-				));
-			}
-		}
+	// highlight search terms
+	if ($search_type == 'tags') {
+		$searched_words = array($display_query);
+	} else {
+		$searched_words = search_remove_ignored_words($display_query, 'array');
 	}
-}
+	$highlighted_query = search_highlight_words($searched_words, $display_query);
 
-// call custom searches
-if ($search_type != 'entities' || $search_type == 'all') {
-	if (is_array($custom_types)) {
-		foreach ($custom_types as $type) {
-			if ($search_type != 'all' && $search_type != $type) {
-				continue;
-			}
+	$filtro = "";
 
-			$current_params = $params;
-			$current_params['search_type'] = $type;
-
-			$results = elgg_trigger_plugin_hook('search', $type, $current_params, array());
-
-			if ($results === FALSE) {
-				// someone is saying not to display these types in searches.
-				continue;
-			}
-
-			if (is_array($results['entities']) && $results['count']) {
-				if ($view = search_get_search_view($current_params, 'list')) {
-					$results_html .= elgg_view($view, array(
-						'results' => $results,
-						'params' => $current_params,
-					));
-				}
-			}
+	if(count($fqs) > 0 || $topic != "") {
+		$filtro = "- Filtro attivo";
+		$attivi = "<br><span style=\"font-size:11px; font-weight:normal;\">Clicca sul link per disattivare "; 
+		if($topic != "") {
+			$attivi .= " &gt; <a href='#' onclick='$(\"#facet-".$i."\").submit();'>".$topic_name."</a>";
+			$input = "<input type='text' name='fq' value='".$fq."'>";	
+			$form_string =  getFormForSearch("facet-", $i, $input, "", "", $query);		
+			$attivi .= $form_string;
+			
+			$i++;
 		}
+		$firstTime = true;
+		foreach ($fqs as $corrente) {
+			$newFq = strstr($fq, $corrente, true); 
+			if(substr($corrente,0,3)=="id:")
+				$corrente = $topic_name;
+			
+			$attivi .= " &gt; <a href='#' onclick='$(\"#facet-".$i."\").submit();'>".$corrente."</a>";
+			
+			$input = "";
+			if($firstTime) {
+				$firstTime = false;
+			} else {
+				$input .= "<input type='text' name='fq' value='(".substr($newFq,1,-4).")'>";	
+			}
+			$form_string =  getFormForSearch("facet-", $i, $input, $topic, $topic_name, $query);		
+			$attivi .= $form_string;
+			$i++;
+		}
+		$attivi.="</span>";
 	}
+
+	$pageNumber = $offset/$limit+1;
+
+	$numResultsLabel = ($pageNumber*$limit > $numFound)? $numFound : $pageNumber*$limit;
+
+	$body = elgg_view_title( elgg_echo('searchnumber',array($numResultsLabel,$numFound))." ". elgg_echo('search:results', array("\"$highlighted_query\""))." ".$filtro.$attivi);
+
+	$correctlySpelled = $response->spellcheck->suggestions->correctlySpelled;
+	$wordSuggested = $response->spellcheck->suggestions->$query->suggestion[0]->word;
+
+	if($correctlySpelled===false && $wordSuggested != "") {	
+		$body .= "<p style=\"font-size: medium;margin-top: 10px;margin-left: 10px;\">Forse cercavi <a href='".elgg_get_site_url()."search?q=".$wordSuggested."'>".$wordSuggested."</a>?</p>";
+	}
+
 }
-
-// highlight search terms
-if ($search_type == 'tags') {
-	$searched_words = array($display_query);
-} else {
-	$searched_words = search_remove_ignored_words($display_query, 'array');
-}
-$highlighted_query = search_highlight_words($searched_words, $display_query);
-
-$body = elgg_view_title(elgg_echo('search:results', array("\"$highlighted_query\"")));
-
-if (!$results_html) {
+/*if (!$results_html) {
 	$body .= elgg_view('search/no_results');
 } else {
 	$body .= $results_html;
-}
+}*/
+
+$body .= $knoboosResult;
+
+$body .=  elgg_view("navigation/pagination", array("offset" => $offset, "limit" => $limit, "count" => $numFound));
 
 // this is passed the original params because we don't care what actually
 // matched (which is out of date now anyway).

@@ -142,7 +142,12 @@ $english = array(
 	'ImportException:ProblemUpdatingMeta' => "There was a problem updating '%s' on entity '%d'",
 
 	'ExportException:NoSuchEntity' => "No such entity GUID:%d",
-
+	'knoboos:file_type' => 'File types',
+	'knoboos:author_s' => 'Author',
+	'knoboos:tags' => 'Tag',
+	'knoboos:categoria' => 'Category',
+	'knoboos:last_modified' => 'Date',
+	'knoboos:topic' => 'Topic',
 	'ImportException:NoODDElements' => "No OpenDD elements found in import data, import failed.",
 	'ImportException:NotAllImported' => "Not all elements were imported.",
 

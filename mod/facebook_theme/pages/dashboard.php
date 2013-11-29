@@ -28,7 +28,7 @@ $friendsSummary = "<a href='".elgg_get_site_url()."user_connections'>I tuoi amic
 
 if(windowIsChanged($user->guid)) {
 	error_log("finestra cambiata ".$user->guid);
-	rankingUpdate($user->guid);
+	//rankingUpdate($user->guid);
 } else {
 	error_log("finestra invariata ".$user->guid);
 }
@@ -42,7 +42,7 @@ $activity = elgg_list_river(array(
 		AND rv.action_type <> 'friend'
 
 	"),
-	'select_rank' => TRUE,
+	'select_rank' => FALSE,
 ));
 
 //		AND rv.posted < ".$time_ago."

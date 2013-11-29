@@ -96,6 +96,9 @@ foreach ($lib_files as $file) {
 }
 
 // Load the get_members function                                                                     
+include_once($lib_dir."SolrPhpClient/Apache/Solr/Service.php");
+
+// Load the get_members function                                                                     
 include_once($lib_dir."members.php");
 
 // Load the retrieve_data function                                                                     
